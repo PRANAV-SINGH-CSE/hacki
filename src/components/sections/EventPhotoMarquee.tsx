@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useAnimationControls } from 'framer-motion';
 

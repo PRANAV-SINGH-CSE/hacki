@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { ContainerScroll } from '../ui/container-scroll-animation';
 import EventPhotoMarquee from './EventPhotoMarquee';
 

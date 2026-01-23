@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";

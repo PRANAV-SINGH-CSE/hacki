@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+
 import { db } from "./firebase";
 import {
   collection,
