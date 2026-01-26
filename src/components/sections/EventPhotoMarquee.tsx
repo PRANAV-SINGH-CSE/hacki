@@ -79,7 +79,7 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
             <div className="relative h-32 w-80 sm:h-40 sm:w-[400px] md:h-48 md:w-[480px] lg:h-56 lg:w-[560px] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10">
               <img
                 src={image}
-                alt={`Event photo ${index + 1}`}
+                alt="Event photo"
                 className="h-full w-full object-cover rounded-lg"
                 loading="lazy"
                 draggable="false"

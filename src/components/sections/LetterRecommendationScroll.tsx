@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimationControls } from 'framer-motion';
 
-interface AchievementImagesScrollProps {
+interface LetterRecommendationScrollProps {
   images: string[];
   speed?: number;
   direction?: 'left' | 'right';
 }
 
-const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({ 
+const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({ 
   images, 
   speed = 90,
   direction = 'left'
@@ -17,8 +17,8 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
   // Duplicate images for seamless infinite scroll
   const duplicatedImages = [...images, ...images];
   
-  // Calculate animation distance (each image is 512px wide on desktop for 4:3 aspect ratio + gap)
-  const imageWidth = 512; // 4:3 aspect ratio: if height is 384px, width is 512px
+  // Calculate animation distance (5:7 aspect ratio: if height is 420px, width is 300px)
+  const imageWidth = 300; // 5:7 aspect ratio
   const gap = 24; // gap-6 = 24px
   const totalWidth = (imageWidth + gap) * images.length;
   const animationDirection = direction === 'left' ? -1 : 1;
@@ -55,10 +55,10 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
             key={index}
             className="flex-shrink-0"
           >
-            <div className="relative h-64 w-80 md:h-96 md:w-[512px] rounded-lg overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+            <div className="relative h-[420px] w-[300px] md:h-[420px] md:w-[300px] rounded-lg overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
               <img
                 src={image}
-                alt={`Certificate ${index + 1}`}
+                alt={`Letter of Recommendation ${index + 1}`}
                 className="h-full w-full object-cover"
                 draggable="false"
                 onError={(e) => {
@@ -75,4 +75,4 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
   );
 };
 
-export default AchievementImagesScroll;
+export default LetterRecommendationScroll;

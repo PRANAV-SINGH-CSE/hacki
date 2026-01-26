@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ContainerScroll } from '../ui/container-scroll-animation';
 import EventPhotoMarquee from './EventPhotoMarquee';
 
 const EventsScrollSections = () => {
@@ -28,15 +27,6 @@ const EventsScrollSections = () => {
     '/events/vgu-guest-lecture/15.jpg',
     '/events/vgu-guest-lecture/16.jpg',
     '/events/vgu-guest-lecture/VGU.jpg',
-  ];
-
-  const jnuGuestLectureImages = [
-    '/events/jnu-guest-lecture/1.jpg',
-    '/events/jnu-guest-lecture/2.jpg',
-    '/events/jnu-guest-lecture/3.jpg',
-    '/events/jnu-guest-lecture/4.jpg',
-    '/events/jnu-guest-lecture/5.jpg',
-    '/events/jnu-guest-lecture/6.jpg',
   ];
 
   const events = [

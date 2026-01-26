@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Achievements from "./pages/Achievements";
 import Events from "./pages/Events";
-import Blog from "./pages/Blog";
 import Contact from "./pages/ContactPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -35,6 +34,11 @@ const AnimatedRoutes = () => {
 
   useEffect(() => {
     prevPathname.current = location.pathname;
+  }, [location.pathname]);
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return (

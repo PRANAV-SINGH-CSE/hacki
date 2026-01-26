@@ -166,7 +166,7 @@ const ProductVisual: React.FC<{ product: ProductData; isActive: boolean }> = ({
         } as any)}
       >
         <div
-          className="relative w-48 h-48 rounded-2xl overflow-hidden border-2"
+          className="relative w-36 h-36 rounded-2xl overflow-hidden border-2"
           style={{
             borderColor: product.ringColor,
             boxShadow: `0 0 40px ${product.glowColor}, 0 0 80px ${product.glowColor}`,
@@ -226,11 +226,11 @@ const ProductDetails: React.FC<{ product: ProductData; isActive: boolean }> = ({
           } as any)}
         >
           <div>
-            <h3 className="text-3xl font-light text-white mb-2">{product.title}</h3>
-            <p className="text-white/70 text-lg">{product.description}</p>
+            <h3 className="text-2xl font-light text-white mb-1">{product.title}</h3>
+            <p className="text-white/70 text-base">{product.description}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             {product.features.map((feature, index) => {
               const Icon = feature.icon;
               const isDominant = feature.value.includes("FLAGSHIP");
@@ -244,8 +244,8 @@ const ProductDetails: React.FC<{ product: ProductData; isActive: boolean }> = ({
                     whileHover: { scale: 1.03, y: -4, boxShadow: `0 12px 40px ${product.glowColor}` },
                     whileTap: { scale: 0.995 },
                     className: isDominant
-                      ? "flex items-start gap-4 p-8 rounded-xl bg-white/10 border border-cyan-400/30 transition-transform duration-200"
-                      : "flex items-start gap-4 p-6 rounded-lg bg-white/5 border border-white/10 transition-transform duration-200",
+                      ? "flex items-start gap-3 p-5 rounded-xl bg-white/10 border border-cyan-400/30 transition-transform duration-200"
+                      : "flex items-start gap-3 p-4 rounded-lg bg-white/5 border border-white/10 transition-transform duration-200",
                   } as any)}
                 >
                   <div
@@ -260,7 +260,7 @@ const ProductDetails: React.FC<{ product: ProductData; isActive: boolean }> = ({
                     <div className="text-xs text-white/60 uppercase tracking-wider mb-1">
                       {feature.label}
                     </div>
-                    <div className="text-lg font-semibold text-white">{feature.value}</div>
+                    <div className="text-sm font-semibold text-white">{feature.value}</div>
                   </div>
                 </motion.div>
               );
@@ -317,23 +317,23 @@ const SpatialProductShowcase: React.FC = () => {
   const rightProduct = PRODUCT_DATA.right;
 
   return (
-    <section className="relative mt-16 md:mt-20">
+    <section className="relative mt-8 md:mt-10">
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0f]">
         <BackgroundGradient product={currentProduct} />
 
-        <div className="relative z-10 p-8 md:p-12">
+        <div className="relative z-10 p-6 md:p-8">
           {/* Header */}
-          <div className="mb-8">
+          <div className="mb-6">
             <p className="font-orbitron text-xs uppercase tracking-[0.4em] text-cyan-300/80 mb-2">
               Learning Surface
             </p>
-            <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
               What We Teach
             </h2>
           </div>
 
           {/* Main content area */}
-          <div className="grid lg:grid-cols-2 gap-12 items-start mb-8">
+          <div className="grid lg:grid-cols-2 gap-8 items-start mb-6">
             {/* Left: Visual */}
             <div className="order-2 lg:order-1 lg:max-w-[520px] mx-auto">
               <ProductVisual product={currentProduct} isActive={true} />

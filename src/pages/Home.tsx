@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Hero from "../components/sections/Hero";
-import SplineSection from "../components/sections/SplineSection";
 import CountUpMetrics from "../components/ui/CountUp";
 import QuoteSection from "../components/sections/QuoteSection";
 import WhatWeDo from "../components/sections/WhatWeDo";

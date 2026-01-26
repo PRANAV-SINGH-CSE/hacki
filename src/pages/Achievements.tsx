@@ -8,6 +8,7 @@ import SpatialProductShowcase from "../components/ui/spatial-product-showcase";
 import CommandCenter from "../components/sections/CommandCenter";
 import LogoMarquee from "../components/sections/LogoMarquee";
 import AchievementImagesScroll from "../components/sections/AchievementImagesScroll";
+import LetterRecommendationScroll from "../components/sections/LetterRecommendationScroll";
 import {
   containerVariants,
   headingVariants,
@@ -66,48 +67,67 @@ const achievements: Achievement[] = [
   },
 ];
 
-// Logo paths - Using images from public/logos/ folder
+// Logo paths - Using PNG images from public/logos/ folder
 const partnerLogos = [
-  '/logos/1.jpg',
-  '/logos/2.jpg',
-  '/logos/3.jpg',
-  '/logos/4.jpg',
-  '/logos/5.jpg',
-  '/logos/6.jpg',
-  '/logos/7.jpg',
-  '/logos/8.jpg',
-  '/logos/9.jpg',
-  '/logos/10.jpg',
-  '/logos/11.jpg',
-  '/logos/12.jpg',
-  '/logos/13.jpg',
-  '/logos/14.jpg',
-  '/logos/15.jpg',
-  '/logos/16.jpg',
-  '/logos/17.jpg',
-  '/logos/18.jpg',
-  '/logos/19.jpg',
-  '/logos/20.jpg',
-  '/logos/21.jpg',
-  '/logos/22.jpg',
-  '/logos/23.jpg',
-  '/logos/24.jpg',
-  '/logos/25.jpg',
+  '/logos/2-removebg-preview.png',
+  '/logos/3-removebg-preview.png',
+  '/logos/4-removebg-preview.png',
+  '/logos/5-removebg-preview.png',
+  '/logos/6-removebg-preview.png',
+  '/logos/7-removebg-preview.png',
+  '/logos/8-removebg-preview.png',
+  '/logos/9-removebg-preview.png',
+  '/logos/10-removebg-preview.png',
+  '/logos/11-removebg-preview.png',
+  '/logos/12-Photoroom.png',
+  '/logos/13-removebg-preview.png',
+  '/logos/15-removebg-preview.png',
+  '/logos/16-removebg-preview.png',
+  '/logos/17-removebg-preview.png',
+  '/logos/18-removebg-preview.png',
+  '/logos/19-removebg-preview.png',
+  '/logos/20-removebg-preview.png',
+  '/logos/21-removebg-preview.png',
+  '/logos/22-removebg-preview.png',
+  '/logos/23-removebg-preview.png',
+  '/logos/24-removebg-preview.png',
+  '/logos/25.png',
 ];
 
 // Achievement images - Using images from public/achievements/ folder
 const achievementImages = [
-  '/achievements/1.jpg',
-  '/achievements/2.jpg',
-  '/achievements/3.jpg',
-  '/achievements/4.jpg',
-  '/achievements/5.jpg',
-  '/achievements/6.jpg',
-  '/achievements/7.jpg',
-  '/achievements/8.jpg',
-  '/achievements/9.jpg',
-  '/achievements/10.jpg',
-  '/achievements/11.jpg',
+  '/achievements/1.png',
+  '/achievements/2.png',
+  '/achievements/3.png',
+  '/achievements/4.png',
+  // '/achievements/Info system computer.jpg',
+  // '/achievements/Mahatma gandhi gov. School.jpg',
+  // '/achievements/Saraswati vidhya mandir.jpg',
+  // '/achievements/Swami nityanand academy.jpg',
+  // '/achievements/Vinayak world school.jpg',
+  // '/achievements/VSI global.jpg',
+  // '/achievements/Screenshot_20260112_120015_LinkedIn.jpg',
+  // '/achievements/Screenshot_20260112_120042_LinkedIn.jpg',
+  // '/achievements/Screenshot_20260112_120103_LinkedIn.jpg',
+  // '/achievements/Screenshot_20260112_120120_LinkedIn.jpg',
+];
+
+// Letter of Recommendation images - Only displaying image files (not PDFs)
+// Note: PDF files won't render as images in the marquee - convert them to JPG/PNG for display
+const letterRecommendationImages = [
+  // '/letters/Appreciation letter -1.pdf',  // Commented out - PDF not displayable
+  // '/letters/Appreciation letter .pdf',    // Commented out - PDF not displayable
+  // '/letters/City international.pdf',      // Commented out - PDF not displayable
+  '/letters/Info system computer.jpg',
+  '/letters/Mahatma gandhi gov. School.jpg',
+  '/letters/Saraswati vidhya mandir.jpg',
+  '/letters/Screenshot_20260112_120015_LinkedIn.jpg',
+  '/letters/Screenshot_20260112_120042_LinkedIn.jpg',
+  '/letters/Screenshot_20260112_120103_LinkedIn.jpg',
+  '/letters/Screenshot_20260112_120120_LinkedIn.jpg',
+  '/letters/Swami nityanand academy.jpg',
+  '/letters/Vinayak world school.jpg',
+  '/letters/VSI global.jpg',
 ];
 
 const Achievements = () => {
@@ -190,7 +210,7 @@ const Achievements = () => {
         </div>
 
         {/* Logo Marquee Section - Partner/Sponsor Logos - FULL WIDTH */}
-        <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-16 md:my-24">
+        <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-8 md:my-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -209,7 +229,7 @@ const Achievements = () => {
         </div>
 
         {/* Achievement Images Scroll Section - FULL WIDTH */}
-        <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-16 md:my-24">
+        <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-8 md:my-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -224,7 +244,26 @@ const Achievements = () => {
               Moments that define our journey
             </p>
           </motion.div>
-          <AchievementImagesScroll images={achievementImages} speed={90} direction="left" />
+          <AchievementImagesScroll images={achievementImages} speed={50} direction="left" />
+        </div>
+
+        {/* Letter of Recommendation Section - FULL WIDTH */}
+        <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-16 md:my-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-4xl mb-8 px-6"
+          >
+            <h2 className="text-3xl md:text-5xl font-light text-white text-center mb-2">
+              Letter of <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">Recommendation</span>
+            </h2>
+            <p className="text-white/60 text-center text-sm md:text-base">
+              Recognition from industry leaders and academic institutions
+            </p>
+          </motion.div>
+          <LetterRecommendationScroll images={letterRecommendationImages} speed={50} direction="left" />
         </div>
 
         {/* BACK TO NARROW */}
