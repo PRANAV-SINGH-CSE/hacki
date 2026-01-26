@@ -60,6 +60,7 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
                 src={image}
                 alt={`Letter of Recommendation ${index + 1}`}
                 className="h-full w-full object-cover"
+                loading="lazy"
                 draggable="false"
                 onError={(e) => {
                   // Fallback if image doesn't exist

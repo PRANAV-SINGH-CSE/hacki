@@ -86,7 +86,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
                 src={logo}
                 alt={`Partner logo ${index + 1}`}
                 className="h-full w-full object-cover rounded-2xl"
-                loading="eager"
+                loading="lazy"
                 draggable="false"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
