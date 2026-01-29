@@ -71,7 +71,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
       
       <motion.div
         ref={marqueeRef}
-        className="flex gap-8 md:gap-12 items-center"
+        className="flex gap-5 md:gap-5 items-center"
         // Force the container to be as wide as its content, not the screen
         style={{ width: "max-content" }} 
         animate={controls}

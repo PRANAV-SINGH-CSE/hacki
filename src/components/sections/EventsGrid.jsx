@@ -45,7 +45,7 @@ const EventsGrid = () => {
   return (
     <section className="relative bg-[#050505] pb-12">
       <div className="container mx-auto px-6">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-[90rem]">
           <div className="mb-6">
             <h2 className="text-3xl font-semibold text-white sm:text-4xl md:text-5xl">
               Upcoming & Recurring Events
@@ -60,7 +60,14 @@ const EventsGrid = () => {
             {events.map((e) => {
               const Icon = e.icon;
               return (
-                <Card key={e.title} className="p-6">
+                <Card
+                  key={e.title}
+                  // UPDATED:
+                  // 1. min-h-[280px]: Forces the card to be taller.
+                  // 2. flex flex-col justify-between: Pushes the date/tags to the bottom.
+                  // 3. Removed 'hover:border-cyan' to eliminate the glow.
+                  className="p-8 min-h-[280px] flex flex-col justify-between border border-white/10 bg-white/5 shadow-none hover:bg-white/10 transition-all duration-300"
+                >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-4">
                       <div className="rounded-lg bg-white/5 p-3">
@@ -68,7 +75,7 @@ const EventsGrid = () => {
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-white">{e.title}</h3>
-                        <p className="mt-1 text-sm text-white/70">{e.description}</p>
+                        <p className="mt-2 text-sm text-white/70 leading-relaxed">{e.description}</p>
                       </div>
                     </div>
                   </div>
@@ -82,7 +89,7 @@ const EventsGrid = () => {
                         <span className="text-xs">{e.mode}</span>
                       </span>
                     </div>
-                    <div className="text-xs">{e.date}</div>
+                    <div className="text-xs font-mono">{e.date}</div>
                   </div>
                 </Card>
               );

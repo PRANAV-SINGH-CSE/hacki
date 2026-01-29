@@ -76,7 +76,7 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
             key={index}
             className="flex-shrink-0 flex items-center justify-center"
           >
-            <div className="relative h-32 w-80 sm:h-40 sm:w-[400px] md:h-48 md:w-[480px] lg:h-56 lg:w-[560px] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10">
+             <div className="relative h-32 sm:h-40 md:h-48 lg:h-56 aspect-[27/13] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10">            
               <img
                 src={image}
                 alt="Event moment"

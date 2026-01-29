@@ -100,7 +100,7 @@ const PRODUCT_DATA: Record<ProductId, ProductData> = {
     gradient: "from-fuchsia-500/20 via-purple-500/10 to-fuchsia-900/20",
     ringColor: "rgba(244, 114, 182, 0.18)",
     glowColor: "rgba(244, 114, 182, 0.28)",
-    imageUrl: "https://images.unsplash.com/photo-1526378721976-267f13b0b7f7?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
   },
 };
 
@@ -241,7 +241,11 @@ const ProductDetails: React.FC<{ product: ProductData; isActive: boolean }> = ({
                     initial: { opacity: 0, x: -20 },
                     animate: { opacity: 1, x: 0 },
                     transition: { delay: index * 0.1 },
-                    whileHover: { scale: 1.03, y: -4, boxShadow: `0 12px 40px ${product.glowColor}` },
+                    whileHover: {
+                      scale: 1.03,
+                      y: -4,
+                      boxShadow: `0 12px 40px ${product.glowColor}`,
+                    },
                     whileTap: { scale: 0.995 },
                     className: isDominant
                       ? "flex items-start gap-3 p-5 rounded-xl bg-white/10 border border-cyan-400/30 transition-transform duration-200"
@@ -257,10 +261,14 @@ const ProductDetails: React.FC<{ product: ProductData; isActive: boolean }> = ({
                     <Icon className="w-5 h-5" style={{ color: product.glowColor }} />
                   </div>
                   <div className="flex-1">
-                    <div className="text-xs text-white/60 uppercase tracking-wider mb-1">
+                    {/* UPDATED: Label is now Bold and Full White */}
+                    <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">
                       {feature.label}
                     </div>
-                    <div className="text-sm font-semibold text-white">{feature.value}</div>
+                    {/* UPDATED: Value is now Lower Opacity and Lighter Weight */}
+                    <div className="text-sm font-medium text-white/70">
+                      {feature.value}
+                    </div>
                   </div>
                 </motion.div>
               );
