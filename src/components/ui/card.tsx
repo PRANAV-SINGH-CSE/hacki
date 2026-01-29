@@ -1,8 +1,9 @@
 // @ts-nocheck
-import React from "react";
+import React, { useState } from "react";
 import { cn } from "../../lib/utils";
 
 const Card = ({ children, className = "", glow = "rgba(0,224,255,0.25)" }) => {
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <div
       className={cn(
@@ -11,8 +12,10 @@ const Card = ({ children, className = "", glow = "rgba(0,224,255,0.25)" }) => {
         className
       )}
       style={{
-        boxShadow: `0 0 40px ${glow}`,
+        boxShadow: isHovered ? `0 0 40px ${glow}` : undefined,
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {children}
     </div>

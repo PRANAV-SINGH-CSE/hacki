@@ -44,13 +44,13 @@ const Events = () => {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,224,255,0.08),transparent_70%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAyNGMwIDYuNjI3LTUuMzczIDEyLTEyIDEycy0xMi01LjM3My0xMi0xMiA1LjM3My0xMiAxMi0xMiAxMiA1LjM3MyAxMiAxMnoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiIvPjwvZz48L3N2Zz4=')] opacity-20" />
         
-        <div className="container relative z-10 mx-auto px-6">
-          <div className="mx-auto max-w-5xl text-center">
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 overflow-visible">
+          <div className="mx-auto max-w-5xl text-center overflow-visible">
             <motion.div
               variants={leftVariant}
               initial="hidden"
               animate="visible"
-              className="space-y-8"
+              className="space-y-8 overflow-visible"
             >
               <motion.p
                 variants={rightVariant}
@@ -65,10 +65,11 @@ const Events = () => {
                 variants={leftVariant}
                 initial="hidden"
                 animate="visible"
-                className="text-5xl font-light leading-tight text-white sm:text-6xl md:text-7xl lg:text-8xl"
+                className="text-4xl font-mono font-light leading-tight text-white sm:text-5xl md:text-6xl lg:text-8xl xl:text-8xl px-1"
               >
-                Cybersecurity Events &{' '}
-                <span className="block bg-gradient-to-r from-cyan-400 via-sky-400 to-fuchsia-500 bg-clip-text text-transparent">
+                <span className="whitespace-normal sm:whitespace-nowrap">Cybersecurity Events</span>
+                {' '}&{' '}
+                <span className="inline bg-gradient-to-r from-cyan-400 via-sky-400 to-fuchsia-500 bg-clip-text text-transparent">
                   Simulations
                 </span>
               </motion.h1>

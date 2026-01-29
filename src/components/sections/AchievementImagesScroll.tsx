@@ -14,12 +14,9 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
 }) => {
   const controls = useAnimationControls();
   
-  // Duplicate images for seamless infinite scroll
   const duplicatedImages = [...images, ...images];
-  
-  // Calculate animation distance (each image is 512px wide on desktop for 4:3 aspect ratio + gap)
-  const imageWidth = 512; // 4:3 aspect ratio: if height is 384px, width is 512px
-  const gap = 24; // gap-6 = 24px
+  const imageWidth = 512;
+  const gap = 24;
   const totalWidth = (imageWidth + gap) * images.length;
   const animationDirection = direction === 'left' ? -1 : 1;
 
@@ -39,22 +36,12 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
   }, [controls, totalWidth, speed, animationDirection]);
 
   return (
-    <div 
-      className="relative w-full overflow-hidden py-6 md:py-8 px-[2%]"
-    >
-      {/* Gradient overlays for fade effect */}
+    <div className="relative w-full overflow-hidden py-6 md:py-8 px-[2%]">
       <div className="absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[#050505] to-transparent pointer-events-none" />
       <div className="absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none" />
-      
-      <motion.div
-        className="flex gap-4 md:gap-6"
-        animate={controls}
-      >
+      <motion.div className="flex gap-4 md:gap-6" animate={controls}>
         {duplicatedImages.map((image, index) => (
-          <div
-            key={index}
-            className="flex-shrink-0"
-          >
+          <div key={index} className="flex-shrink-0">
             <div className="relative h-64 w-80 md:h-96 md:w-[512px] rounded-lg overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
               <img
                 src={image}
@@ -63,7 +50,6 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
                 loading="lazy"
                 draggable="false"
                 onError={(e) => {
-                  // Fallback if image doesn't exist
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
                 }}

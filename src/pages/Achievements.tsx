@@ -172,10 +172,10 @@ const Achievements = () => {
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
             >
-              <p className="mb-4 font-orbitron text-xs uppercase tracking-[0.4em] text-cyan-400">
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.4em] text-cyan-400">
                 Our Impact
               </p>
-              <h1 className="text-4xl font-light text-white sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl font-mono font-light text-white sm:text-5xl md:text-6xl">
                 Our Impact &{" "}
                 <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">
                   Achievements
@@ -218,7 +218,7 @@ const Achievements = () => {
             transition={{ duration: 0.6 }}
             className="mx-auto max-w-4xl mb-8 px-6"
           >
-            <h2 className="text-2xl md:text-6xl font-light text-white text-center mb-2">
+            <h2 className="text-3xl md:text-6xl font-light text-white text-center mb-2">
               Our <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">Partners</span>
             </h2>
             <p className="text-white/60 text-center text-sm md:text-base">
