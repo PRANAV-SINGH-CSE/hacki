@@ -66,9 +66,9 @@ const EventsScrollSections = () => {
   ];
 
   return (
-    <section className="relative bg-[#050505] py-24">
+    <section className="relative bg-[#050505] py-10">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="space-y-24">
+        <div className="space-y-12">
           {events.map((event, idx) => (
             <div key={event.title} className="space-y-8">
               <div className="space-y-4 max-w-4xl mx-auto text-center">

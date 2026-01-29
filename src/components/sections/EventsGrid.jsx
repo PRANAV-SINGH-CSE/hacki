@@ -43,7 +43,7 @@ const events = [
 
 const EventsGrid = () => {
   return (
-    <section className="relative bg-[#050505] py-20">
+    <section className="relative bg-[#050505] pb-12">
       <div className="container mx-auto px-6">
         <div className="mx-auto max-w-6xl">
           <div className="mb-6">
