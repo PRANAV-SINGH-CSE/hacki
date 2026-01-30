@@ -67,7 +67,6 @@ const achievements: Achievement[] = [
   },
 ];
 
-// Logo paths - Using PNG images from public/logos/ folder
 const partnerLogos = [
   '/logos/2-removebg-preview.png',
   '/logos/3-removebg-preview.png',
@@ -94,30 +93,14 @@ const partnerLogos = [
   '/logos/25.png',
 ];
 
-// Achievement images - Using images from public/achievements/ folder
 const achievementImages = [
   '/achievements/1.png',
   '/achievements/2.png',
   '/achievements/3.png',
   '/achievements/4.png',
-  // '/achievements/Info system computer.jpg',
-  // '/achievements/Mahatma gandhi gov. School.jpg',
-  // '/achievements/Saraswati vidhya mandir.jpg',
-  // '/achievements/Swami nityanand academy.jpg',
-  // '/achievements/Vinayak world school.jpg',
-  // '/achievements/VSI global.jpg',
-  // '/achievements/Screenshot_20260112_120015_LinkedIn.jpg',
-  // '/achievements/Screenshot_20260112_120042_LinkedIn.jpg',
-  // '/achievements/Screenshot_20260112_120103_LinkedIn.jpg',
-  // '/achievements/Screenshot_20260112_120120_LinkedIn.jpg',
 ];
 
-// Letter of Recommendation images - Only displaying image files (not PDFs)
-// Note: PDF files won't render as images in the marquee - convert them to JPG/PNG for display
 const letterRecommendationImages = [
-  // '/letters/Appreciation letter -1.pdf',  // Commented out - PDF not displayable
-  // '/letters/Appreciation letter .pdf',    // Commented out - PDF not displayable
-  // '/letters/City international.pdf',      // Commented out - PDF not displayable
   '/letters/Info system computer.jpg',
   '/letters/Mahatma gandhi gov. School.jpg',
   '/letters/Saraswati vidhya mandir.jpg',
@@ -159,12 +142,9 @@ const Achievements = () => {
 
   return (
     <section className="relative min-h-screen bg-[#050505] pt-32 pb-24">
-      {/* OUTER WRAPPER */}
       <div className="container mx-auto px-6">
 
-        {/* NARROW CONTENT */}
         <div className="mx-auto max-w-4xl">
-          {/* Hero */}
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 mb-16">
             <motion.div
               variants={leftVariant}
@@ -175,7 +155,7 @@ const Achievements = () => {
               <p className="mb-4 font-mono text-xs uppercase tracking-[0.4em] text-cyan-400">
                 Our Impact
               </p>
-              <h1 className="text-4xl font-mono font-light text-white sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl font-['Times_New_Roman'] font-light text-white sm:text-5xl md:text-6xl">
                 Our Impact &{" "}
                 <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">
                   Achievements
@@ -195,21 +175,15 @@ const Achievements = () => {
             </motion.div>
           </div>
 
-          {/* Showcase */}
           <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen px-6">
-  <SpatialProductShowcase />
-</div>
+            <SpatialProductShowcase />
+          </div>
         </div>
 
-        {/* FULL WIDTH — Applied Programs Section - COMMENTED OUT */}
-        {/* <AchievementsGrid /> */}
-
-        {/* BACK TO NARROW */}
         <div className="mx-auto max-w-4xl">
           <CountUpMetrics />
         </div>
 
-        {/* Logo Marquee Section - Partner/Sponsor Logos - FULL WIDTH */}
         <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-8 md:my-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -218,7 +192,7 @@ const Achievements = () => {
             transition={{ duration: 0.6 }}
             className="mx-auto max-w-4xl mb-8 px-6"
           >
-            <h2 className="text-3xl md:text-6xl font-light text-white text-center mb-2">
+            <h2 className="text-3xl md:text-6xl font-['Times_New_Roman'] font-light text-white text-center mb-2">
               Our <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">Partners</span>
             </h2>
             <p className="text-white/60 text-center text-sm md:text-base">
@@ -228,7 +202,6 @@ const Achievements = () => {
           <LogoMarquee logos={partnerLogos} speed={50} />
         </div>
 
-        {/* Achievement Images Scroll Section - FULL WIDTH */}
         <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-8 md:my-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -237,7 +210,7 @@ const Achievements = () => {
             transition={{ duration: 0.6 }}
             className="mx-auto max-w-4xl mb-8 px-6"
           >
-            <h2 className="text-3xl md:text-5xl font-light text-white text-center mb-2">
+            <h2 className="text-3xl md:text-5xl font-['Times_New_Roman'] font-light text-white text-center mb-2">
               Certificate <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">Gallery</span>
             </h2>
             <p className="text-white/60 text-center text-sm md:text-base">
@@ -247,7 +220,6 @@ const Achievements = () => {
           <AchievementImagesScroll images={achievementImages} speed={50} direction="left" />
         </div>
 
-        {/* Letter of Recommendation Section - FULL WIDTH */}
         <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-16 md:my-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -256,7 +228,7 @@ const Achievements = () => {
             transition={{ duration: 0.6 }}
             className="mx-auto max-w-4xl mb-8 px-6"
           >
-            <h2 className="text-3xl md:text-5xl font-light text-white text-center mb-2">
+            <h2 className="text-3xl md:text-5xl font-['Times_New_Roman'] font-light text-white text-center mb-2">
               Letter of <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">Recommendation</span>
             </h2>
             <p className="text-white/60 text-center text-sm md:text-base">
@@ -266,11 +238,9 @@ const Achievements = () => {
           <LetterRecommendationScroll images={letterRecommendationImages} speed={50} direction="left" />
         </div>
 
-        {/* BACK TO NARROW */}
         <div className="mx-auto max-w-4xl">
           <CommandCenter />
 
-          {/* CTA */}
           <motion.div
             variants={button}
             initial="hidden"
@@ -294,4 +264,3 @@ const Achievements = () => {
 };
 
 export default Achievements;
-
