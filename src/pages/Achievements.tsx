@@ -231,7 +231,7 @@ const Achievements = () => {
           </motion.div>
           <AchievementImagesScroll
             images={achievementImages}
-            speed={40}
+            speed={25}
             direction="left"
             paused={isModalOpen}
             onImageClick={openModal}
