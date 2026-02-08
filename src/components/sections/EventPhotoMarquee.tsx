@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface EventPhotoMarqueeProps {
   images: string[];
@@ -18,6 +18,9 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
   onImageClick,
 }) => {
   const [isPressing, setIsPressing] = useState(false);
+  const longPressTimerRef = useRef<number | null>(null);
+  const lastPointerTypeRef = useRef<string | null>(null);
+  const longPressTriggeredRef = useRef(false);
   // Duplicate images to ensure seamless loop
   const duplicatedImages = [...images, ...images];
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
@@ -61,16 +64,29 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
               type="button"
               className="marquee-image-button relative h-32 sm:h-40 md:h-48 lg:h-56 aspect-[2.5/1] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10"
               onPointerDown={(event) => {
+                lastPointerTypeRef.current = event.pointerType;
                 if (event.pointerType === 'touch') {
                   event.preventDefault();
-                  onImageClick?.(image);
+                  longPressTriggeredRef.current = false;
+                  if (longPressTimerRef.current) {
+                    window.clearTimeout(longPressTimerRef.current);
+                  }
+                  longPressTimerRef.current = window.setTimeout(() => {
+                    longPressTriggeredRef.current = true;
+                    onImageClick?.(image);
+                  }, 450);
                   return;
                 }
                 setIsPressing(true);
                 event.currentTarget.setPointerCapture?.(event.pointerId);
               }}
               onPointerUp={(event) => {
-                if (event.pointerType === 'touch') return;
+                if (event.pointerType === 'touch') {
+                  if (longPressTimerRef.current) {
+                    window.clearTimeout(longPressTimerRef.current);
+                  }
+                  return;
+                }
                 setIsPressing(false);
                 event.currentTarget.releasePointerCapture?.(event.pointerId);
               }}
@@ -82,7 +98,10 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
                 setIsPressing(false);
               }}
               onDragStart={(event) => event.preventDefault()}
-              onClick={() => onImageClick?.(image)}
+              onClick={() => {
+                if (lastPointerTypeRef.current === 'touch') return;
+                onImageClick?.(image);
+              }}
               aria-label={`Open event image ${index + 1}`}
             >
               <img
@@ -91,6 +110,8 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
                 className="h-full w-full object-cover rounded-lg"
                 loading="lazy"
                 draggable="false"
+                onContextMenu={(event) => event.preventDefault()}
+                onTouchStart={(event) => event.preventDefault()}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   const container = target.closest('.photo-container') as HTMLElement;

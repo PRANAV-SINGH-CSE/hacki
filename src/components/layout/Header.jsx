@@ -127,7 +127,7 @@ const Header = () => {
         style={{ y: navY }}
       >
         <div className="w-full sm:w-auto pointer-events-auto py-4 px-3 sm:py-6 sm:px-6">
-          <div className="flex items-center justify-between sm:justify-start gap-4 md:gap-8">
+          <div className="flex w-full items-center justify-between lg:justify-start gap-4 md:gap-8">
             
             {/* Logo Button */}
             <Link 
@@ -157,7 +157,7 @@ const Header = () => {
             <nav 
               ref={navRef}
               // Base dark glass container remains the same
-              className="hidden sm:flex relative items-center overflow-hidden p-1.5 rounded-full bg-black/20 border border-white/5 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] ring-1 ring-white/5"
+              className="hidden lg:flex relative items-center overflow-hidden p-1.5 rounded-full bg-black/20 border border-white/5 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] ring-1 ring-white/5"
               onMouseLeave={handleNavLeave}
               style={{
                 backdropFilter: 'blur(20px) saturate(180%)'
@@ -236,7 +236,7 @@ const Header = () => {
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
               className={cn(
-                "sm:hidden text-white/90 hover:text-[#00f3ff] transition-colors z-20",
+                "lg:hidden ml-auto text-white/90 hover:text-[#00f3ff] transition-colors z-20",
                 "p-3 rounded-full bg-black/40 backdrop-blur-xl border border-white/5 shadow-[0_4px_16px_rgba(0,0,0,0.5)]"
               )}
             >
@@ -253,7 +253,7 @@ const Header = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] sm:hidden overflow-y-auto"
+            className="fixed inset-0 z-[60] lg:hidden overflow-y-auto"
             style={{
               background: 'rgba(2, 2, 2, 0.9)',
               backdropFilter: 'blur(30px) saturate(150%)',

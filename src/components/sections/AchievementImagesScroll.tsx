@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 interface AchievementImagesScrollProps {
   images: string[];
@@ -18,6 +18,8 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
   const duplicatedImages = [...images, ...images];
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
   const pauseClass = paused ? 'is-paused' : '';
+  const longPressTimerRef = useRef<number | null>(null);
+  const lastPointerTypeRef = useRef<string | null>(null);
 
   return (
     <div
@@ -31,8 +33,43 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
           <div key={index} className="flex-shrink-0">
             <button
               type="button"
-              className="marquee-image-button relative h-64 w-80 md:h-96 md:w-[512px] rounded-lg overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm"
-              onClick={() => onImageClick?.(image)}
+              className="marquee-image-button photo-container relative h-64 w-80 md:h-96 md:w-[512px] rounded-lg overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm"
+              onPointerDown={(event) => {
+                lastPointerTypeRef.current = event.pointerType;
+                if (event.pointerType === 'touch') {
+                  event.preventDefault();
+                  if (longPressTimerRef.current) {
+                    window.clearTimeout(longPressTimerRef.current);
+                  }
+                  longPressTimerRef.current = window.setTimeout(() => {
+                    onImageClick?.(image);
+                  }, 450);
+                }
+              }}
+              onPointerUp={(event) => {
+                if (event.pointerType !== 'touch') return;
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+              }}
+              onPointerLeave={(event) => {
+                if (event.pointerType !== 'touch') return;
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+              }}
+              onPointerCancel={(event) => {
+                if (event.pointerType !== 'touch') return;
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+              }}
+              onContextMenu={(event) => event.preventDefault()}
+              onDragStart={(event) => event.preventDefault()}
+              onClick={() => {
+                if (lastPointerTypeRef.current === 'touch') return;
+                onImageClick?.(image);
+              }}
               aria-label={`Open certificate ${index + 1}`}
             >
               <img
@@ -41,6 +78,8 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
                 className="h-full w-full object-cover"
                 loading="lazy"
                 draggable="false"
+                onContextMenu={(event) => event.preventDefault()}
+                onTouchStart={(event) => event.preventDefault()}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';

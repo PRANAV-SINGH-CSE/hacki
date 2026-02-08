@@ -149,6 +149,8 @@ const Events = () => {
               src={selectedImage}
               alt="Selected event"
               className="image-modal__img"
+              onContextMenu={(event) => event.preventDefault()}
+              onTouchStart={(event) => event.preventDefault()}
             />
           ) : null}
         </div>
