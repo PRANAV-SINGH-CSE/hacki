@@ -50,7 +50,7 @@ const Events = () => {
 
   return (
     <section className="relative min-h-screen bg-[#050505] font-['Times_New_Roman']">
-      <div className="relative flex min-h-[85vh] items-center justify-center overflow-hidden bg-[#050505] pt-32 pb-24">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#050505] pt-32 pb-32">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,224,255,0.08),transparent_70%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAyNGMwIDYuNjI3LTUuMzczIDEyLTEyIDEycy0xMi01LjM3My0xMi0xMiA1LjM3My0xMiAxMi0xMiAxMiA1LjM3MyAxMiAxMnoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiIvPjwvZz48L3N2Zz4=')] opacity-20" />
         
@@ -112,7 +112,7 @@ const Events = () => {
         </div>
       </div>
 
-      <div id="events">
+      <div id="events" className="mt-24 md:mt-32">
         <EventsScrollSections paused={isModalOpen} onImageClick={openModal} />
         <EventsGrid />
       </div>

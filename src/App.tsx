@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, type ReactNode } from "react";
+import Lenis from "lenis";
 import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -115,19 +116,52 @@ const AnimatedRoutes = () => {
 
 const App = () => (
   <AuthProvider>
-    <div className="min-h-screen bg-[#050505] font-inter text-white">
-      <BrowserRouter>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">
-            <AnimatedRoutes />
-          </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </div>
+    <SmoothScroll>
+      <div className="min-h-screen bg-[#050505] font-inter text-white">
+        <BrowserRouter>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">
+              <AnimatedRoutes />
+            </main>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </div>
+    </SmoothScroll>
   </AuthProvider>
 );
+
+const SmoothScroll = ({ children }: { children: ReactNode }) => {
+  useEffect(() => {
+    const isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!isDesktop) {
+      return;
+    }
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      smoothWheel: true,
+      lerp: 0.08,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.2,
+    });
+
+    let rafId = 0;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
+
+  return <>{children}</>;
+};
 
 export default App;
 
