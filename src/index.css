@@ -138,6 +138,10 @@ body {
   animation-play-state: paused;
 }
 
+.infinite-marquee.is-paused .infinite-marquee__track {
+  animation-play-state: paused;
+}
+
 .infinite-marquee--reverse .infinite-marquee__track {
   animation-direction: reverse;
 }
@@ -149,4 +153,92 @@ body {
   to {
     transform: translateX(-50%);
   }
+}
+
+.marquee-image-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.marquee-image-button:focus-visible {
+  outline: 2px solid rgba(0, 224, 255, 0.8);
+  outline-offset: 4px;
+}
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 5, 0.7);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms ease;
+}
+
+.image-modal__card {
+  position: relative;
+  width: min(860px, 92vw);
+  max-height: 86vh;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 10, 15, 0.92);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  padding: 18px;
+  transform: scale(0.96);
+  opacity: 0;
+  transition: transform 260ms ease, opacity 260ms ease;
+}
+
+.image-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.image-modal.is-open .image-modal__card {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.image-modal__img {
+  width: 100%;
+  height: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+.image-modal__close {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  height: 36px;
+  width: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(5, 5, 5, 0.7);
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.image-modal__close:hover {
+  background: rgba(0, 224, 255, 0.2);
+  transform: scale(1.06);
+}
+
+.image-modal__close:focus-visible {
+  outline: 2px solid rgba(0, 224, 255, 0.8);
+  outline-offset: 2px;
 }

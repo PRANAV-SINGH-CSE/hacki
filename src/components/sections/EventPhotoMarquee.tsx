@@ -6,20 +6,25 @@ interface EventPhotoMarqueeProps {
   images: string[];
   speed?: number;
   direction?: 'left' | 'right';
+  paused?: boolean;
+  onImageClick?: (image: string) => void;
 }
 
 const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({ 
   images, 
   speed = 40,
-  direction = 'left'
+  direction = 'left',
+  paused = false,
+  onImageClick,
 }) => {
   // Duplicate images to ensure seamless loop
   const duplicatedImages = [...images, ...images];
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
+  const pauseClass = paused ? 'is-paused' : '';
 
   return (
     <div
-      className={`infinite-marquee relative w-full overflow-hidden py-8 md:py-12 px-[2%] ${directionClass}`}
+      className={`infinite-marquee relative w-full overflow-hidden py-8 md:py-12 px-[2%] ${directionClass} ${pauseClass}`}
       style={{ ['--duration' as string]: `${speed}s` }}
     >
       {/* Gradients */}
@@ -34,7 +39,12 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
             key={index}
             className="flex-shrink-0 flex items-center justify-center"
           >
-             <div className="relative h-32 sm:h-40 md:h-48 lg:h-56 aspect-[27/13] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10">            
+            <button
+              type="button"
+              className="marquee-image-button relative h-32 sm:h-40 md:h-48 lg:h-56 aspect-[27/13] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10"
+              onClick={() => onImageClick?.(image)}
+              aria-label={`Open event image ${index + 1}`}
+            >
               <img
                 src={image}
                 alt="Event moment"
@@ -55,7 +65,7 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
                   console.warn(`Failed to load image: ${image}`);
                 }}
               />
-            </div>
+            </button>
           </div>
         ))}
       </div>

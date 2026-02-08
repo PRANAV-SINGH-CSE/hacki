@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import EventsScrollSections from "../components/sections/EventsScrollSections";
 import EventsGrid from "../components/sections/EventsGrid";
@@ -19,6 +19,18 @@ const prefersReducedMotion = (): boolean => {
 
 const Events = () => {
   const shouldReduceMotion = useRef(prefersReducedMotion());
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (image: string) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -101,7 +113,7 @@ const Events = () => {
       </div>
 
       <div id="events">
-        <EventsScrollSections />
+        <EventsScrollSections paused={isModalOpen} onImageClick={openModal} />
         <EventsGrid />
       </div>
 
@@ -112,6 +124,35 @@ const Events = () => {
       </div>
 
       <EventCTA />
+
+      <div
+        className={`image-modal ${isModalOpen ? "is-open" : ""}`}
+        aria-hidden={!isModalOpen}
+        onClick={closeModal}
+      >
+        <div
+          className="image-modal__card"
+          role="dialog"
+          aria-modal="true"
+          onClick={(event) => event.stopPropagation()}
+        >
+          <button
+            type="button"
+            className="image-modal__close"
+            onClick={closeModal}
+            aria-label="Close image preview"
+          >
+            ×
+          </button>
+          {selectedImage ? (
+            <img
+              src={selectedImage}
+              alt="Selected event"
+              className="image-modal__img"
+            />
+          ) : null}
+        </div>
+      </div>
     </section>
   );
 };

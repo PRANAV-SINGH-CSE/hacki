@@ -2,7 +2,7 @@
 
 import EventPhotoMarquee from './EventPhotoMarquee';
 
-const EventsScrollSections = () => {
+const EventsScrollSections = ({ paused = false, onImageClick }) => {
   // Image arrays for each event
   const sourceCodeImages = [
     '/events/source-code-seminar/7.png',
@@ -97,7 +97,12 @@ const EventsScrollSections = () => {
               </div>
 
               {/* Image Marquee */}
-              <EventPhotoMarquee images={event.images} speed={50} />
+              <EventPhotoMarquee
+                images={event.images}
+                speed={50}
+                paused={paused}
+                onImageClick={onImageClick}
+              />
             </div>
           ))}
         </div>

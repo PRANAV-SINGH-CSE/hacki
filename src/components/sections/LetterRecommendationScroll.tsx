@@ -4,20 +4,25 @@ interface LetterRecommendationScrollProps {
   images: string[];
   speed?: number;
   direction?: 'left' | 'right';
+  paused?: boolean;
+  onImageClick?: (image: string) => void;
 }
 
 const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({ 
   images, 
   speed = 90,
-  direction = 'left'
+  direction = 'left',
+  paused = false,
+  onImageClick,
 }) => {
   // Duplicate images for seamless infinite scroll
   const duplicatedImages = [...images, ...images];
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
+  const pauseClass = paused ? 'is-paused' : '';
 
   return (
     <div 
-      className={`infinite-marquee relative w-full overflow-hidden py-6 md:py-8 px-[2%] ${directionClass}`}
+      className={`infinite-marquee relative w-full overflow-hidden py-6 md:py-8 px-[2%] ${directionClass} ${pauseClass}`}
       style={{ ['--duration' as string]: `${speed}s` }}
     >
       {/* Gradient overlays for fade effect */}
@@ -32,7 +37,12 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
             key={index}
             className="flex-shrink-0"
           >
-            <div className="relative h-[420px] w-[300px] md:h-[420px] md:w-[300px] rounded-lg overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+            <button
+              type="button"
+              className="marquee-image-button relative h-[420px] w-[300px] md:h-[420px] md:w-[300px] rounded-lg overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm"
+              onClick={() => onImageClick?.(image)}
+              aria-label={`Open recommendation letter ${index + 1}`}
+            >
               <img
                 src={image}
                 alt={`Letter of Recommendation ${index + 1}`}
@@ -45,7 +55,7 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
                   target.style.display = 'none';
                 }}
               />
-            </div>
+            </button>
           </div>
         ))}
       </div>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AchievementsGrid from "../components/sections/AchievementsGrid";
 import CountUpMetrics from "../components/ui/CountUp";
 import SpatialProductShowcase from "../components/ui/spatial-product-showcase";
@@ -115,6 +115,18 @@ const letterRecommendationImages = [
 
 const Achievements = () => {
   const shouldReduceMotion = useRef(prefersReducedMotion());
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (image: string) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -217,7 +229,13 @@ const Achievements = () => {
               Moments that define our journey
             </p>
           </motion.div>
-          <AchievementImagesScroll images={achievementImages} speed={50} direction="left" />
+          <AchievementImagesScroll
+            images={achievementImages}
+            speed={50}
+            direction="left"
+            paused={isModalOpen}
+            onImageClick={openModal}
+          />
         </div>
 
         <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-16 md:my-24">
@@ -235,7 +253,42 @@ const Achievements = () => {
               Recognition from industry leaders and academic institutions
             </p>
           </motion.div>
-          <LetterRecommendationScroll images={letterRecommendationImages} speed={50} direction="left" />
+          <LetterRecommendationScroll
+            images={letterRecommendationImages}
+            speed={50}
+            direction="left"
+            paused={isModalOpen}
+            onImageClick={openModal}
+          />
+        </div>
+
+        <div
+          className={`image-modal ${isModalOpen ? 'is-open' : ''}`}
+          aria-hidden={!isModalOpen}
+          onClick={closeModal}
+        >
+          <div
+            className="image-modal__card"
+            role="dialog"
+            aria-modal="true"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="image-modal__close"
+              onClick={closeModal}
+              aria-label="Close image preview"
+            >
+              ×
+            </button>
+            {selectedImage ? (
+              <img
+                src={selectedImage}
+                alt="Selected achievement"
+                className="image-modal__img"
+              />
+            ) : null}
+          </div>
         </div>
 
         <div className="mx-auto max-w-4xl">
