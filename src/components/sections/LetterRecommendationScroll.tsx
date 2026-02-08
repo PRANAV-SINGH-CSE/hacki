@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface LetterRecommendationScrollProps {
   images: string[];
@@ -20,7 +20,21 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
   const pauseClass = paused ? 'is-paused' : '';
   const longPressTimerRef = useRef<number | null>(null);
+  const touchMovedRef = useRef(false);
   const lastPointerTypeRef = useRef<string | null>(null);
+  const touchActiveRef = useRef(false);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const lastScrollTimeRef = useRef(0);
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const pointerMovedRef = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      lastScrollTimeRef.current = Date.now();
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div 
@@ -45,13 +59,89 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
               onPointerDown={(event) => {
                 lastPointerTypeRef.current = event.pointerType;
                 if (event.pointerType === 'touch') {
-                  event.preventDefault();
+                  if (touchActiveRef.current) return;
+                  touchMovedRef.current = false;
+                  touchStartRef.current = {
+                    x: event.clientX,
+                    y: event.clientY,
+                  };
                   if (longPressTimerRef.current) {
                     window.clearTimeout(longPressTimerRef.current);
                   }
                   longPressTimerRef.current = window.setTimeout(() => {
-                    onImageClick?.(image);
+                    if (!touchMovedRef.current) {
+                      onImageClick?.(image);
+                    }
                   }, 450);
+                  return;
+                }
+                pointerMovedRef.current = false;
+                pointerStartRef.current = {
+                  x: event.clientX,
+                  y: event.clientY,
+                };
+              }}
+              onTouchStart={(event) => {
+                touchActiveRef.current = true;
+                lastPointerTypeRef.current = 'touch';
+                touchMovedRef.current = false;
+                touchStartRef.current = null;
+                const touch = event.touches[0];
+                if (touch) {
+                  touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+                }
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+                longPressTimerRef.current = window.setTimeout(() => {
+                  if (!touchMovedRef.current) {
+                    onImageClick?.(image);
+                  }
+                }, 450);
+              }}
+              onTouchMove={(event) => {
+                if (!touchStartRef.current) return;
+                const touch = event.touches[0];
+                if (!touch) return;
+                const dx = Math.abs(touch.clientX - touchStartRef.current.x);
+                const dy = Math.abs(touch.clientY - touchStartRef.current.y);
+                if (dx > 8 || dy > 8) {
+                  touchMovedRef.current = true;
+                  if (longPressTimerRef.current) {
+                    window.clearTimeout(longPressTimerRef.current);
+                  }
+                }
+              }}
+              onTouchEnd={() => {
+                touchActiveRef.current = false;
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+              }}
+              onTouchCancel={() => {
+                touchActiveRef.current = false;
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+              }}
+              onPointerMove={(event) => {
+                if (event.pointerType === 'touch') {
+                  if (!touchStartRef.current) return;
+                  const dx = Math.abs(event.clientX - touchStartRef.current.x);
+                  const dy = Math.abs(event.clientY - touchStartRef.current.y);
+                  if (dx > 8 || dy > 8) {
+                    touchMovedRef.current = true;
+                    if (longPressTimerRef.current) {
+                      window.clearTimeout(longPressTimerRef.current);
+                    }
+                  }
+                  return;
+                }
+                if (!pointerStartRef.current) return;
+                const dx = Math.abs(event.clientX - pointerStartRef.current.x);
+                const dy = Math.abs(event.clientY - pointerStartRef.current.y);
+                if (dx > 6 || dy > 6) {
+                  pointerMovedRef.current = true;
                 }
               }}
               onPointerUp={(event) => {
@@ -76,6 +166,8 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
               onDragStart={(event) => event.preventDefault()}
               onClick={() => {
                 if (lastPointerTypeRef.current === 'touch') return;
+                if (pointerMovedRef.current) return;
+                if (Date.now() - lastScrollTimeRef.current < 200) return;
                 onImageClick?.(image);
               }}
               aria-label={`Open recommendation letter ${index + 1}`}
@@ -87,7 +179,6 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
                 loading="lazy"
                 draggable="false"
                 onContextMenu={(event) => event.preventDefault()}
-                onTouchStart={(event) => event.preventDefault()}
                 onError={(e) => {
                   // Fallback if image doesn't exist
                   const target = e.target as HTMLImageElement;

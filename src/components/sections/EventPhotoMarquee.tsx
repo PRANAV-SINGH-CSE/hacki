@@ -19,8 +19,14 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
 }) => {
   const [isPressing, setIsPressing] = useState(false);
   const longPressTimerRef = useRef<number | null>(null);
+  const touchMovedRef = useRef(false);
   const lastPointerTypeRef = useRef<string | null>(null);
   const longPressTriggeredRef = useRef(false);
+  const touchActiveRef = useRef(false);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const lastScrollTimeRef = useRef(0);
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const pointerMovedRef = useRef(false);
   // Duplicate images to ensure seamless loop
   const duplicatedImages = [...images, ...images];
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
@@ -29,17 +35,26 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
   useEffect(() => {
     const handleRelease = () => setIsPressing(false);
     const handleContextMenu = () => setIsPressing(false);
+    const handleScroll = () => {
+      touchMovedRef.current = true;
+      lastScrollTimeRef.current = Date.now();
+      if (longPressTimerRef.current) {
+        window.clearTimeout(longPressTimerRef.current);
+      }
+    };
     window.addEventListener('pointerup', handleRelease);
     window.addEventListener('pointercancel', handleRelease);
     window.addEventListener('touchend', handleRelease);
     window.addEventListener('touchcancel', handleRelease);
     window.addEventListener('contextmenu', handleContextMenu);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('pointerup', handleRelease);
       window.removeEventListener('pointercancel', handleRelease);
       window.removeEventListener('touchend', handleRelease);
       window.removeEventListener('touchcancel', handleRelease);
       window.removeEventListener('contextmenu', handleContextMenu);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -66,19 +81,96 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
               onPointerDown={(event) => {
                 lastPointerTypeRef.current = event.pointerType;
                 if (event.pointerType === 'touch') {
-                  event.preventDefault();
+                  if (touchActiveRef.current) return;
                   longPressTriggeredRef.current = false;
+                  touchMovedRef.current = false;
+                  touchStartRef.current = {
+                    x: event.clientX,
+                    y: event.clientY,
+                  };
                   if (longPressTimerRef.current) {
                     window.clearTimeout(longPressTimerRef.current);
                   }
                   longPressTimerRef.current = window.setTimeout(() => {
-                    longPressTriggeredRef.current = true;
-                    onImageClick?.(image);
+                    if (!touchMovedRef.current) {
+                      longPressTriggeredRef.current = true;
+                      onImageClick?.(image);
+                    }
                   }, 450);
                   return;
                 }
                 setIsPressing(true);
+                pointerMovedRef.current = false;
+                pointerStartRef.current = {
+                  x: event.clientX,
+                  y: event.clientY,
+                };
                 event.currentTarget.setPointerCapture?.(event.pointerId);
+              }}
+              onTouchStart={(event) => {
+                touchActiveRef.current = true;
+                lastPointerTypeRef.current = 'touch';
+                longPressTriggeredRef.current = false;
+                touchMovedRef.current = false;
+                touchStartRef.current = null;
+                const touch = event.touches[0];
+                if (touch) {
+                  touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+                }
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+                longPressTimerRef.current = window.setTimeout(() => {
+                  if (!touchMovedRef.current) {
+                    longPressTriggeredRef.current = true;
+                    onImageClick?.(image);
+                  }
+                }, 450);
+              }}
+              onTouchMove={(event) => {
+                if (!touchStartRef.current) return;
+                const touch = event.touches[0];
+                if (!touch) return;
+                const dx = Math.abs(touch.clientX - touchStartRef.current.x);
+                const dy = Math.abs(touch.clientY - touchStartRef.current.y);
+                if (dx > 8 || dy > 8) {
+                  touchMovedRef.current = true;
+                  if (longPressTimerRef.current) {
+                    window.clearTimeout(longPressTimerRef.current);
+                  }
+                }
+              }}
+              onTouchEnd={() => {
+                touchActiveRef.current = false;
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+              }}
+              onTouchCancel={() => {
+                touchActiveRef.current = false;
+                if (longPressTimerRef.current) {
+                  window.clearTimeout(longPressTimerRef.current);
+                }
+              }}
+              onPointerMove={(event) => {
+                if (event.pointerType === 'touch') {
+                  if (!touchStartRef.current) return;
+                  const dx = Math.abs(event.clientX - touchStartRef.current.x);
+                  const dy = Math.abs(event.clientY - touchStartRef.current.y);
+                  if (dx > 8 || dy > 8) {
+                    touchMovedRef.current = true;
+                    if (longPressTimerRef.current) {
+                      window.clearTimeout(longPressTimerRef.current);
+                    }
+                  }
+                  return;
+                }
+                if (!pointerStartRef.current) return;
+                const dx = Math.abs(event.clientX - pointerStartRef.current.x);
+                const dy = Math.abs(event.clientY - pointerStartRef.current.y);
+                if (dx > 6 || dy > 6) {
+                  pointerMovedRef.current = true;
+                }
               }}
               onPointerUp={(event) => {
                 if (event.pointerType === 'touch') {
@@ -100,6 +192,8 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
               onDragStart={(event) => event.preventDefault()}
               onClick={() => {
                 if (lastPointerTypeRef.current === 'touch') return;
+                if (pointerMovedRef.current) return;
+                if (Date.now() - lastScrollTimeRef.current < 200) return;
                 onImageClick?.(image);
               }}
               aria-label={`Open event image ${index + 1}`}
@@ -111,7 +205,6 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
                 loading="lazy"
                 draggable="false"
                 onContextMenu={(event) => event.preventDefault()}
-                onTouchStart={(event) => event.preventDefault()}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   const container = target.closest('.photo-container') as HTMLElement;
