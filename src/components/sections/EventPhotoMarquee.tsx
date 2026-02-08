@@ -41,7 +41,7 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
           >
             <button
               type="button"
-              className="marquee-image-button relative h-32 sm:h-40 md:h-48 lg:h-56 aspect-[27/13] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10"
+              className="marquee-image-button relative h-32 sm:h-40 md:h-48 lg:h-56 aspect-[2.5/1] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10"
               onClick={() => onImageClick?.(image)}
               aria-label={`Open event image ${index + 1}`}
             >
