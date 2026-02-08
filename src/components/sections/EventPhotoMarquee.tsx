@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useAnimationControls } from 'framer-motion';
+import React from 'react';
 
 interface EventPhotoMarqueeProps {
   images: string[];
@@ -14,62 +13,21 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
   speed = 40,
   direction = 'left'
 }) => {
-  const controls = useAnimationControls();
-  const [width, setWidth] = useState(0);
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  
   // Duplicate images to ensure seamless loop
   const duplicatedImages = [...images, ...images];
-
-  useEffect(() => {
-    const measureWidth = () => {
-      if (marqueeRef.current) {
-        const totalWidth = marqueeRef.current.scrollWidth;
-        setWidth(totalWidth / 2);
-      }
-    };
-
-    measureWidth();
-    
-    window.addEventListener('resize', measureWidth);
-    return () => window.removeEventListener('resize', measureWidth);
-  }, [images]);
-
-  useEffect(() => {
-    if (width === 0) return;
-
-    const runAnimation = async () => {
-      if (direction === 'right') {
-        controls.set({ x: -width });
-      } else {
-        controls.set({ x: 0 });
-      }
-
-      await controls.start({
-        x: direction === 'left' ? -width : 0,
-        transition: {
-          duration: speed,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop",
-        },
-      });
-    };
-    
-    runAnimation();
-  }, [controls, width, speed, direction]);
+  const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
 
   return (
-    <div className="relative w-full overflow-hidden py-8 md:py-12 px-[2%]">
+    <div
+      className={`infinite-marquee relative w-full overflow-hidden py-8 md:py-12 px-[2%] ${directionClass}`}
+      style={{ ['--duration' as string]: `${speed}s` }}
+    >
       {/* Gradients */}
       <div className="absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-[#050505] to-transparent pointer-events-none" />
       <div className="absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none" />
       
-      <motion.div
-        ref={marqueeRef}
-        className="flex gap-4 md:gap-6 items-center"
-        style={{ width: "max-content" }} 
-        animate={controls}
+      <div
+        className="infinite-marquee__track flex gap-4 md:gap-6 items-center"
       >
         {duplicatedImages.map((image, index) => (
           <div
@@ -100,7 +58,7 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
             </div>
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
