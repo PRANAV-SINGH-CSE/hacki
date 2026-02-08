@@ -12,14 +12,19 @@
 
 html {
   scroll-behavior: auto;
+  overflow-x: clip;
 }
 
 body {
   font-family: "Inter", sans-serif;
   background-color: #050505;
   color: #ffffff;
-  overflow-x: hidden;
+  overflow-x: clip;
   min-height: 100vh;
+}
+
+#root {
+  overflow-x: clip;
 }
 
 ::selection {

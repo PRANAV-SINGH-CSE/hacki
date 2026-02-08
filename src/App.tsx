@@ -37,11 +37,6 @@ const AnimatedRoutes = () => {
     prevPathname.current = location.pathname;
   }, [location.pathname]);
 
-  // Scroll to top on route change
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
   return (
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
@@ -116,9 +111,9 @@ const AnimatedRoutes = () => {
 
 const App = () => (
   <AuthProvider>
-    <SmoothScroll>
-      <div className="min-h-screen bg-[#050505] font-inter text-white">
-        <BrowserRouter>
+    <BrowserRouter>
+      <SmoothScroll>
+        <div className="min-h-screen bg-[#050505] font-inter text-white">
           <div className="flex min-h-screen flex-col">
             <Header />
             <main className="flex-1">
@@ -126,13 +121,20 @@ const App = () => (
             </main>
             <Footer />
           </div>
-        </BrowserRouter>
-      </div>
-    </SmoothScroll>
+        </div>
+      </SmoothScroll>
+    </BrowserRouter>
   </AuthProvider>
 );
 
 const SmoothScroll = ({ children }: { children: ReactNode }) => {
+  const location = useLocation();
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    window.history.scrollRestoration = "manual";
+  }, []);
+
   useEffect(() => {
     const isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (!isDesktop) {
@@ -140,12 +142,14 @@ const SmoothScroll = ({ children }: { children: ReactNode }) => {
     }
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.6,
       smoothWheel: true,
-      lerp: 0.08,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.2,
+      lerp: 0.07,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1,
     });
+
+    lenisRef.current = lenis;
 
     let rafId = 0;
     const raf = (time: number) => {
@@ -157,8 +161,17 @@ const SmoothScroll = ({ children }: { children: ReactNode }) => {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+      return;
+    }
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return <>{children}</>;
 };
