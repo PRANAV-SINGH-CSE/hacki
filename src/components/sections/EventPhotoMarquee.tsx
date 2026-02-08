@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface EventPhotoMarqueeProps {
   images: string[];
@@ -17,10 +17,28 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
   paused = false,
   onImageClick,
 }) => {
+  const [isPressing, setIsPressing] = useState(false);
   // Duplicate images to ensure seamless loop
   const duplicatedImages = [...images, ...images];
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
-  const pauseClass = paused ? 'is-paused' : '';
+  const pauseClass = paused || isPressing ? 'is-paused' : '';
+
+  useEffect(() => {
+    const handleRelease = () => setIsPressing(false);
+    const handleContextMenu = () => setIsPressing(false);
+    window.addEventListener('pointerup', handleRelease);
+    window.addEventListener('pointercancel', handleRelease);
+    window.addEventListener('touchend', handleRelease);
+    window.addEventListener('touchcancel', handleRelease);
+    window.addEventListener('contextmenu', handleContextMenu);
+    return () => {
+      window.removeEventListener('pointerup', handleRelease);
+      window.removeEventListener('pointercancel', handleRelease);
+      window.removeEventListener('touchend', handleRelease);
+      window.removeEventListener('touchcancel', handleRelease);
+      window.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, []);
 
   return (
     <div
@@ -42,6 +60,28 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({
             <button
               type="button"
               className="marquee-image-button relative h-32 sm:h-40 md:h-48 lg:h-56 aspect-[2.5/1] photo-container rounded-lg overflow-hidden bg-white/5 border border-white/10"
+              onPointerDown={(event) => {
+                if (event.pointerType === 'touch') {
+                  event.preventDefault();
+                  onImageClick?.(image);
+                  return;
+                }
+                setIsPressing(true);
+                event.currentTarget.setPointerCapture?.(event.pointerId);
+              }}
+              onPointerUp={(event) => {
+                if (event.pointerType === 'touch') return;
+                setIsPressing(false);
+                event.currentTarget.releasePointerCapture?.(event.pointerId);
+              }}
+              onPointerLeave={() => setIsPressing(false)}
+              onPointerOut={() => setIsPressing(false)}
+              onPointerCancel={() => setIsPressing(false)}
+              onContextMenu={(event) => {
+                event.preventDefault();
+                setIsPressing(false);
+              }}
+              onDragStart={(event) => event.preventDefault()}
               onClick={() => onImageClick?.(image)}
               aria-label={`Open event image ${index + 1}`}
             >
