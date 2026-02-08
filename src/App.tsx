@@ -142,10 +142,10 @@ const SmoothScroll = ({ children }: { children: ReactNode }) => {
     }
 
     const lenis = new Lenis({
-      duration: 1.6,
+      duration: 0.6,
       smoothWheel: true,
-      lerp: 0.07,
-      wheelMultiplier: 0.9,
+      lerp: 0.2,
+      wheelMultiplier: 1.6,
       touchMultiplier: 1,
     });
 
