@@ -354,7 +354,7 @@ body {
   display: grid;
   place-items: center;
   margin-left: auto;
-  transform: translateX(48px);
+  transform: translateX(28px);
 }
 
 .page-loader__radar::before,
@@ -488,7 +488,13 @@ body {
   }
 
   .page-loader__hero-right {
-    justify-content: flex-start;
+    justify-content: center;
+  }
+
+  .page-loader__radar {
+    width: min(260px, 72vw);
+    margin-left: 0;
+    transform: none;
   }
 }
 
