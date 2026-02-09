@@ -498,6 +498,85 @@ body {
   }
 }
 
+@media (max-width: 640px) {
+  .page-loader__frame {
+    width: min(520px, 92vw);
+    padding: 0px 10px 90px;
+    gap: 32px;
+  }
+
+  .page-loader__nav {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .page-loader__nav-items {
+    display: none;
+  }
+
+  .page-loader__nav::after {
+    content: "";
+    height: 42px;
+    width: 42px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+    box-shadow: 0 0 18px rgba(0, 224, 255, 0.12);
+  }
+
+  .page-loader__hero {
+    gap: 28px;
+  }
+
+  .page-loader__hero-left {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .page-loader__text-lines {
+    justify-items: center;
+  }
+
+  .page-loader__actions {
+    justify-content: center;
+  }
+
+  .page-loader__hero-right {
+    display: none;
+  }
+
+  .skeleton-badge {
+    width: min(240px, 74vw);
+    height: 20px;
+  }
+
+  .skeleton-title {
+    width: min(320px, 84vw);
+    height: 56px;
+  }
+
+  .skeleton-subtitle {
+    width: min(260px, 74vw);
+    height: 30px;
+  }
+
+  .skeleton-line {
+    width: min(320px, 86vw);
+  }
+
+  .skeleton-line.is-short {
+    width: min(220px, 66vw);
+  }
+
+  .skeleton-button {
+    width: 138px;
+    height: 42px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .skeleton::after {
     animation: none;
