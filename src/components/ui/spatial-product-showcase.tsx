@@ -1,21 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
   Radar,
   Activity,
-  Lock,
-  Network,
   AlertTriangle,
-  TrendingUp,
   Zap,
-  Eye,
-  Layers,
   GraduationCap,
   Handshake,
 } from "lucide-react";
+
+// ... [Keep types and interfaces] ...
 
 type ProductId = "left" | "right";
 
@@ -45,22 +41,22 @@ const PRODUCT_DATA: Record<ProductId, ProductData> = {
     features: [
       {
         label: "Offensive Security",
-        value: "ACTIVE — Guided exploit development labs covering web exploitation, binary reversing, and real-world red-team tradecraft — designed to mirror live adversary behavior.",
+        value: "ACTIVE — Guided exploit development labs covering web exploitation, binary reversing, and real-world red-team tradecraft.",
         icon: Zap,
       },
       {
         label: "Defensive Security",
-        value: "ACTIVE — Incident response simulations, detection engineering workshops, and hands-on blue-team playbooks with measurable skill checkpoints.",
+        value: "ACTIVE — Incident response simulations, detection engineering workshops, and hands-on blue-team playbooks.",
         icon: ShieldCheck,
       },
       {
         label: "Threat Intelligence",
-        value: "ACTIVE — Evidence-driven threat hunting exercises, IOC correlation labs, and feed analysis training that translate signals into actionable intelligence.",
+        value: "ACTIVE — Evidence-driven threat hunting exercises, IOC correlation labs, and feed analysis training.",
         icon: Radar,
       },
       {
         label: "Cybersecurity Education",
-        value: "PAST → PRESENT — Curriculum design, instructor training programs, and lab-based assessments delivered across universities to scale practical learning outcomes.",
+        value: "PAST → PRESENT — Curriculum design, instructor training programs, and lab-based assessments delivered across universities.",
         icon: GraduationCap,
       },
     ],
@@ -78,22 +74,22 @@ const PRODUCT_DATA: Record<ProductId, ProductData> = {
       {
         label: "Workshops",
         value:
-          "PAST & ACTIVE — Instructor-led labs delivered across colleges, focused on secure coding, exploitation basics, and defensive tooling.",
+          "PAST & ACTIVE — Instructor-led labs delivered across colleges, focused on secure coding and exploitation basics.",
         icon: Activity,
       },
       {
         label: "CTFs",
-        value: "ACTIVE — Recurring CTF-style challenges covering web, binary, crypto, and forensics with increasing difficulty tiers and guided walkthroughs.",
+        value: "ACTIVE — Recurring CTF-style challenges covering web, binary, crypto, and forensics with increasing difficulty tiers.",
         icon: Zap,
       },
       {
         label: "Simulations",
-        value: "FLAGSHIP — Multi-team incident response simulations mirroring national-scale coordination, escalation, and decision-making with real-world threat scenarios.",
+        value: "FLAGSHIP — Multi-team incident response simulations mirroring national-scale coordination and escalation.",
         icon: AlertTriangle,
       },
       {
         label: "College Collaborations",
-        value: "PAST → PRESENT — Long-term partnerships enabling curriculum alignment, faculty co-design, and mentorship pipelines across technical institutions.",
+        value: "PAST → PRESENT — Long-term partnerships enabling curriculum alignment and faculty co-design.",
         icon: Handshake,
       },
     ],
@@ -121,11 +117,13 @@ const ProductVisual: React.FC<{ product: ProductData; isActive: boolean }> = ({
   isActive,
 }) => {
   return (
-    <div className="relative flex items-center justify-center h-full min-h-[400px]">
+    /* HEIGHT REDUCED: min-h-[450px] -> min-h-[350px] */
+    <div className="relative flex items-center justify-center h-full min-h-[350px]">
       {/* Rotating dashed rings */}
       <div className="absolute inset-0 flex items-center justify-center">
         {[1, 2, 3].map((ring) => {
-          const size = 120 + ring * 60;
+          /* RINGS SCALED DOWN: 140/70 -> 100/50 */
+          const size = 100 + ring * 50; 
           return (
             <motion.div
               key={ring}
@@ -165,8 +163,9 @@ const ProductVisual: React.FC<{ product: ProductData; isActive: boolean }> = ({
           },
         } as any)}
       >
+        {/* IMAGE SCALED DOWN: w-40 h-40 -> w-32 h-32 */}
         <div
-          className="relative w-36 h-36 rounded-2xl overflow-hidden border-2"
+          className="relative w-32 h-32 rounded-2xl overflow-hidden border-2"
           style={{
             borderColor: product.ringColor,
             boxShadow: `0 0 40px ${product.glowColor}, 0 0 80px ${product.glowColor}`,
@@ -222,15 +221,15 @@ const ProductDetails: React.FC<{ product: ProductData; isActive: boolean }> = ({
             animate: { opacity: 1, y: 0 },
             exit: { opacity: 0, y: -20 },
             transition: { duration: 0.5 },
-            className: "space-y-6",
+            className: "space-y-4", /* REDUCED: space-y-8 -> space-y-4 */
           } as any)}
         >
           <div>
             <h3 className="text-2xl font-light text-white mb-1">{product.title}</h3>
-            <p className="text-white/70 text-base">{product.description}</p>
+            <p className="text-white/70 text-sm leading-relaxed">{product.description}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-stretch">
             {product.features.map((feature, index) => {
               const Icon = feature.icon;
               const isDominant = feature.value.includes("FLAGSHIP");
@@ -242,33 +241,33 @@ const ProductDetails: React.FC<{ product: ProductData; isActive: boolean }> = ({
                     animate: { opacity: 1, x: 0 },
                     transition: { delay: index * 0.1 },
                     whileHover: {
-                      scale: 1.03,
-                      y: -4,
-                      boxShadow: `0 12px 40px ${product.glowColor}`,
+                      scale: 1.02,
+                      y: -2,
+                      boxShadow: `0 8px 30px ${product.glowColor}`,
                     },
                     whileTap: { scale: 0.995 },
+                    /* REDUCED PADDING: p-6/p-5 -> p-4/p-3 */
                     className: isDominant
-                      ? "flex items-start gap-3 p-5 rounded-xl bg-white/10 border border-cyan-400/30 transition-transform duration-200"
-                      : "flex items-start gap-3 p-4 rounded-lg bg-white/5 border border-white/10 transition-transform duration-200",
+                      ? "flex flex-col gap-2 p-4 rounded-xl bg-white/10 border border-cyan-400/30 transition-transform duration-200 h-full"
+                      : "flex flex-col gap-2 p-3 rounded-lg bg-white/5 border border-white/10 transition-transform duration-200 h-full",
                   } as any)}
                 >
-                  <div
-                    className="p-2 rounded-lg"
-                    style={{
-                      backgroundColor: `${product.glowColor}20`,
-                    }}
-                  >
-                    <Icon className="w-5 h-5" style={{ color: product.glowColor }} />
-                  </div>
-                  <div className="flex-1">
-                    {/* UPDATED: Label is now Bold and Full White */}
-                    <div className="text-xs font-bold text-white uppercase tracking-wider mb-1">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="p-1.5 rounded-md"
+                      style={{
+                        backgroundColor: `${product.glowColor}20`,
+                      }}
+                    >
+                      <Icon className="w-4 h-4" style={{ color: product.glowColor }} />
+                    </div>
+                    <div className="text-xs font-bold text-white uppercase tracking-wider">
                       {feature.label}
                     </div>
-                    {/* UPDATED: Value is now Lower Opacity and Lighter Weight */}
-                    <div className="text-sm font-medium text-white/70">
-                      {feature.value}
-                    </div>
+                  </div>
+                  
+                  <div className="text-xs font-medium text-white/70 leading-relaxed line-clamp-4">
+                    {feature.value}
                   </div>
                 </motion.div>
               );
@@ -285,7 +284,7 @@ const Switcher: React.FC<{
   onSwitch: (id: ProductId) => void;
 }> = ({ activeProduct, onSwitch }) => {
   return (
-    <div className="flex items-center gap-2 p-1 bg-black/40 rounded-full border border-white/10">
+    <div className="flex items-center gap-2 p-1 bg-black/40 rounded-full border border-white/10 backdrop-blur-sm">
       {(["left", "right"] as ProductId[]).map((id) => {
         const product = PRODUCT_DATA[id];
         const isActive = activeProduct === id;
@@ -293,8 +292,9 @@ const Switcher: React.FC<{
           <button
             key={id}
             onClick={() => onSwitch(id)}
+            /* REDUCED PADDING: px-8 py-3 -> px-6 py-2 */
             className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-              isActive ? "text-black" : "text-white/70"
+              isActive ? "text-black" : "text-white/70 hover:text-white"
             }`}
           >
             <AnimatePresence>
@@ -319,42 +319,40 @@ const Switcher: React.FC<{
 
 const SpatialProductShowcase: React.FC = () => {
   const [activeProduct, setActiveProduct] = useState<ProductId>("left");
-
   const currentProduct = PRODUCT_DATA[activeProduct];
-  const leftProduct = PRODUCT_DATA.left;
-  const rightProduct = PRODUCT_DATA.right;
 
   return (
-    <section className="relative mt-8 md:mt-10">
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0f]">
+    <section className="relative mt-6 md:mt-8 max-w-7xl mx-auto px-4 md:px-6">
+      <div className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0a0a0f]">
         <BackgroundGradient product={currentProduct} />
 
+        {/* COMPACT PADDING: p-8/p-12 -> p-6/p-8 */}
         <div className="relative z-10 p-6 md:p-8">
           {/* Header */}
-          <div className="mb-6">
-            <p className="font-orbitron text-xs uppercase tracking-[0.4em] text-cyan-300/80 mb-2">
+          <div className="mb-4">
+            <p className="font-orbitron text-[10px] uppercase tracking-[0.3em] text-cyan-300/80 mb-2">
               Learning Surface
             </p>
-            <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-2">
               What We Teach
             </h2>
           </div>
 
-          {/* Main content area */}
-          <div className="grid lg:grid-cols-2 gap-8 items-start mb-6">
+          {/* COMPACT GRID GAP: gap-12 -> gap-8 */}
+          <div className="grid lg:grid-cols-2 gap-8 items-center mb-6">
             {/* Left: Visual */}
-            <div className="order-2 lg:order-1 lg:max-w-[520px] mx-auto">
+            <div className="order-2 lg:order-1 w-full">
               <ProductVisual product={currentProduct} isActive={true} />
             </div>
 
             {/* Right: Details */}
-            <div className="order-1 lg:order-2">
+            <div className="order-1 lg:order-2 w-full">
               <ProductDetails product={currentProduct} isActive={true} />
             </div>
           </div>
 
           {/* Switcher */}
-          <div className="flex justify-center">
+          <div className="flex justify-center pt-2">
             <Switcher activeProduct={activeProduct} onSwitch={setActiveProduct} />
           </div>
         </div>
@@ -364,4 +362,3 @@ const SpatialProductShowcase: React.FC = () => {
 };
 
 export default SpatialProductShowcase;
-

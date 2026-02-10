@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import AchievementsGrid from "../components/sections/AchievementsGrid";
 import CountUpMetrics from "../components/ui/CountUp";
 import SpatialProductShowcase from "../components/ui/spatial-product-showcase";
@@ -9,6 +9,8 @@ import CommandCenter from "../components/sections/CommandCenter";
 import LogoMarquee from "../components/sections/LogoMarquee";
 import AchievementImagesScroll from "../components/sections/AchievementImagesScroll";
 import LetterRecommendationScroll from "../components/sections/LetterRecommendationScroll";
+import { AboutIntro } from "../components/about/AboutIntro";
+import { MissionVisionValues } from "../components/about/MissionVisionValues";
 import {
   containerVariants,
   headingVariants,
@@ -126,6 +128,16 @@ const Achievements = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+  };
+
+  const handleAboutScroll = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const target = document.getElementById('about-section');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    window.location.hash = 'about-section';
   };
 
   useEffect(() => {
@@ -306,12 +318,18 @@ const Achievements = () => {
               Learn more about our research and initiatives
             </motion.p>
             <Link
-              to="/about"
+              to="#about-section"
+              onClick={handleAboutScroll}
               className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 text-sm font-medium uppercase tracking-wider text-cyan-300 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/20"
             >
               About Hackiware
             </Link>
           </motion.div>
+        </div>
+
+        <div id="about-section">
+          <AboutIntro />
+          <MissionVisionValues />
         </div>
       </div>
     </section>
