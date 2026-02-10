@@ -70,7 +70,11 @@ const EventsScrollSections = ({ paused = false, onImageClick }) => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="space-y-12">
           {events.map((event, idx) => (
-            <div key={event.title} className="space-y-8">
+            <div
+              key={event.title}
+              id={event.title === "Kavach Suraksha" ? "kavach-event" : undefined}
+              className="space-y-8"
+            >
               <div className="space-y-4 max-w-4xl mx-auto text-center">
                 <h2 className="text-3xl font-semibold text-white sm:text-4xl md:text-5xl">
                   {event.title}

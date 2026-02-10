@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import EventsScrollSections from "../components/sections/EventsScrollSections";
 import EventsGrid from "../components/sections/EventsGrid";
@@ -30,6 +30,16 @@ const Events = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+  };
+
+  const handleExploreClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const target = document.getElementById("kavach-event");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    window.location.hash = "kavach-event";
   };
 
   useEffect(() => {
@@ -101,7 +111,8 @@ const Events = () => {
                 className="flex flex-wrap items-center justify-center gap-4 pt-6"
               >
                 <Link
-                  to="#events"
+                  to="#kavach-event"
+                  onClick={handleExploreClick}
                   className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 text-sm font-['Times_New_Roman'] uppercase tracking-wider text-cyan-300 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/20"
                 >
                   Explore Events
