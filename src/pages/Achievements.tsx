@@ -5,11 +5,9 @@ import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import AchievementsGrid from "../components/sections/AchievementsGrid";
 import CountUpMetrics from "../components/ui/CountUp";
 import SpatialProductShowcase from "../components/ui/spatial-product-showcase";
-import CommandCenter from "../components/sections/CommandCenter";
 import LogoMarquee from "../components/sections/LogoMarquee";
 import AchievementImagesScroll from "../components/sections/AchievementImagesScroll";
 import LetterRecommendationScroll from "../components/sections/LetterRecommendationScroll";
-import { AboutIntro } from "../components/about/AboutIntro";
 import { MissionVisionValues } from "../components/about/MissionVisionValues";
 import {
   containerVariants,
@@ -140,6 +138,7 @@ const Achievements = () => {
     window.location.hash = 'about-section';
   };
 
+
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const handleChange = () => {
@@ -198,7 +197,6 @@ const Achievements = () => {
               </p>
             </motion.div>
           </div>
-
           <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen px-6">
             <SpatialProductShowcase />
           </div>
@@ -305,32 +303,28 @@ const Achievements = () => {
           </div>
         </div>
 
-        <div className="mx-auto max-w-4xl">
-          <CommandCenter />
-
-          <motion.div
-            variants={button}
-            initial="hidden"
-            animate="visible"
-            className="mt-16 text-center"
+        <motion.div
+          variants={button}
+          initial="hidden"
+          animate="visible"
+          className="mt-16 text-center"
+        >
+          <motion.p variants={paragraph} className="mb-6 text-white/70">
+            Learn more about our research and initiatives
+          </motion.p>
+          <Link
+            to="#about-section"
+            onClick={handleAboutScroll}
+            className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 text-sm font-medium uppercase tracking-wider text-cyan-300 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/20"
           >
-            <motion.p variants={paragraph} className="mb-6 text-white/70">
-              Learn more about our research and initiatives
-            </motion.p>
-            <Link
-              to="#about-section"
-              onClick={handleAboutScroll}
-              className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 text-sm font-medium uppercase tracking-wider text-cyan-300 transition-all duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/20"
-            >
-              About Hackiware
-            </Link>
-          </motion.div>
-        </div>
+            About Hackiware
+          </Link>
+        </motion.div>
 
         <div id="about-section">
-          <AboutIntro />
           <MissionVisionValues />
         </div>
+
       </div>
     </section>
   );

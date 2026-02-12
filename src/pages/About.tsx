@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { AboutIntro } from '../components/about/AboutIntro';
 import { MissionVisionValues } from '../components/about/MissionVisionValues';
 import { Timeline } from '../components/ui/timeline';
 
@@ -231,7 +230,6 @@ const About = () => {
       </section>
 
       {/* CONTENT */}
-      <AboutIntro />
       <MissionVisionValues />
       <Timeline data={timelineData} />
       <Leadership />
