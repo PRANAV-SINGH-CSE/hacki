@@ -103,7 +103,6 @@ const EventsScrollSections = ({ paused = false, onImageClick }) => {
               {/* Image Marquee */}
               <EventPhotoMarquee
                 images={event.images}
-                  speed={40}
                 paused={paused}
                 onImageClick={onImageClick}
               />

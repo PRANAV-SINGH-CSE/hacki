@@ -157,12 +157,21 @@ const Header = () => {
             <nav 
               ref={navRef}
               // Base dark glass container remains the same
-              className="hidden lg:flex relative items-center overflow-hidden p-1.5 rounded-full bg-black/20 border border-white/5 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] ring-1 ring-white/5"
+              className="hidden lg:flex relative items-center overflow-hidden p-1.5 rounded-full bg-gradient-to-b from-white/10 via-black/20 to-black/30 border border-white/10 backdrop-blur-2xl shadow-[0_12px_40px_0_rgba(0,0,0,0.55)] ring-1 ring-white/10 transition-all duration-300"
               onMouseLeave={handleNavLeave}
               style={{
-                backdropFilter: 'blur(20px) saturate(180%)'
+                backdropFilter: 'blur(24px) saturate(190%)'
               }}
             >
+              {/* Glass Sheen Overlay */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(120deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 35%, rgba(255,255,255,0) 60%)',
+                  opacity: 0.7,
+                }}
+              />
+
               {/* Moving Lens (Background) - Enhanced Glass Effect Here */}
               <motion.div
                 className="absolute top-1.5 bottom-1.5 left-0 rounded-full z-0 pointer-events-none"
@@ -171,15 +180,15 @@ const Header = () => {
                   width: springWidth,
                   opacity: springOpacity,
                   // 1. Stronger, multi-stop gradient for "curved glass" look (strong top highlight, clear middle)
-                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.02) 30%, rgba(255, 255, 255, 0.0) 70%, rgba(255, 255, 255, 0.1) 100%)',
+                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 35%, rgba(255, 255, 255, 0.0) 70%, rgba(255, 255, 255, 0.14) 100%)',
                   // 2. Added internal backdrop filter to make the lens area brighter and blurrier than the surroundings
-                  backdropFilter: 'blur(8px) brightness(1.2) contrast(1.1)',
+                  backdropFilter: 'blur(10px) brightness(1.28) contrast(1.12) saturate(1.1)',
                   // 3. Sharper rim lighting (inset shadows) for more 3D pop
                   boxShadow: `
-                    inset 0 1px 2px rgba(255, 255, 255, 0.5),
-                    inset 0 -1px 1px rgba(0, 0, 0, 0.1),
-                    0 2px 4px rgba(0, 0, 0, 0.2),
-                    0 0 0 1px rgba(255, 255, 255, 0.15)
+                    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                    inset 0 -1px 2px rgba(0, 0, 0, 0.18),
+                    0 6px 16px rgba(0, 0, 0, 0.25),
+                    0 0 0 1px rgba(255, 255, 255, 0.2)
                   `,
                 }}
               />

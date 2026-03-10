@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import EventsScrollSections from "../components/sections/EventsScrollSections";
 import EventsGrid from "../components/sections/EventsGrid";
@@ -50,6 +51,26 @@ const Events = () => {
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    window.addEventListener("keydown", onEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onEscape);
+    };
+  }, [isModalOpen]);
 
   const leftVariant = shouldReduceMotion.current
     ? reducedMotionSectionVariants
@@ -136,36 +157,41 @@ const Events = () => {
 
       <EventCTA />
 
-      <div
-        className={`image-modal ${isModalOpen ? "is-open" : ""}`}
-        aria-hidden={!isModalOpen}
-        onClick={closeModal}
-      >
-        <div
-          className="image-modal__card"
-          role="dialog"
-          aria-modal="true"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <button
-            type="button"
-            className="image-modal__close"
-            onClick={closeModal}
-            aria-label="Close image preview"
-          >
-            ×
-          </button>
-          {selectedImage ? (
-            <img
-              src={selectedImage}
-              alt="Selected event"
-              className="image-modal__img"
-              onContextMenu={(event) => event.preventDefault()}
-              onTouchStart={(event) => event.preventDefault()}
-            />
-          ) : null}
-        </div>
-      </div>
+      {typeof document !== "undefined"
+        ? createPortal(
+            <div
+              className={`image-modal ${isModalOpen ? "is-open" : ""}`}
+              aria-hidden={!isModalOpen}
+              onClick={closeModal}
+            >
+              <div
+                className="image-modal__card"
+                role="dialog"
+                aria-modal="true"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  className="image-modal__close"
+                  onClick={closeModal}
+                  aria-label="Close image preview"
+                >
+                  ×
+                </button>
+                {selectedImage ? (
+                  <img
+                    src={selectedImage}
+                    alt="Selected event"
+                    className="image-modal__img"
+                    onContextMenu={(event) => event.preventDefault()}
+                    onTouchStart={(event) => event.preventDefault()}
+                  />
+                ) : null}
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </section>
   );
 };
