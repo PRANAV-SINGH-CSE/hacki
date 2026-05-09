@@ -222,11 +222,11 @@ const Leaderboard = () => {
           </div>
         </div>
 
-        <div className="event-security-stack" aria-label="Kavach security cycle">
+        {/* <div className="event-security-stack" aria-label="Kavach security cycle">
           <span>Secure</span>
           <span>Detect</span>
           <span>Respond</span>
-        </div>
+        </div> */}
       </div>
 
       <div className="leaderboard-shell" id="kavach-leaderboard">
