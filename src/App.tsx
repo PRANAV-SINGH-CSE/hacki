@@ -10,6 +10,7 @@ import About from "./pages/About";
 import Achievements from "./pages/Achievements";
 import Events from "./pages/Events";
 import Contact from "./pages/ContactPage";
+import Leaderboard from "./pages/Leaderboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PageWrapper from "./components/shared/PageWrapper";
@@ -19,10 +20,11 @@ const routeOrder: Record<string, number> = {
   "/about": 1,
   "/achievements": 2,
   "/events": 3,
-  "/blog": 4,
-  "/contact": 4,
-  "/login": 5,
-  "/register": 6,
+  "/leaderboard": 4,
+  "/blog": 5,
+  "/contact": 5,
+  "/login": 6,
+  "/register": 7,
 };
 
 const AnimatedRoutes = () => {
@@ -77,6 +79,14 @@ const AnimatedRoutes = () => {
           element={
             <PageWrapper direction={direction}>
               <Contact />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="/leaderboard"
+          element={
+            <PageWrapper direction={direction}>
+              <Leaderboard />
             </PageWrapper>
           }
         />

@@ -176,17 +176,6 @@ body {
   user-select: none;
 }
 
-.event-carousel-card {
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-}
-
-.event-carousel-image {
-  backface-visibility: hidden;
-  transform: translateZ(0);
-  filter: saturate(1.04) contrast(1.02);
-}
-
 .marquee-image-button:focus-visible {
   outline: 2px solid rgba(0, 224, 255, 0.8);
   outline-offset: 4px;
@@ -208,8 +197,8 @@ body {
 
 .image-modal__card {
   position: relative;
-  width: min(1120px, 96vw);
-  max-height: 92vh;
+  width: min(860px, 92vw);
+  max-height: 86vh;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(10, 10, 15, 0.92);
@@ -233,7 +222,7 @@ body {
 .image-modal__img {
   width: 100%;
   height: 100%;
-  max-height: 86vh;
+  max-height: 78vh;
   object-fit: contain;
   border-radius: 12px;
   display: block;

@@ -106,7 +106,6 @@ const timelineData = [
 const team = [
   { name: 'Yash Sharma', role: 'Founder & CEO', img: '/Leadership_Photo/Yash_Sharma.jpeg', linkedin: 'https://www.linkedin.com/in/yash-sharma-a6ba89290' },
   { name: 'Himanshu Sharma', role: 'Co-Founder & MD', img: '/Leadership_Photo/Himanshu_Sharma.jpg', linkedin: 'https://www.linkedin.com/in/himanshu-sharma06' },
-  { name: 'Nitika Jagwani', role: 'CFO & Advisory', img: '/Leadership_Photo/Nitika_Jagwani.jpeg', linkedin: 'https://www.linkedin.com/in/nitika-jagwani-042b36290' },
 ];
 
 const Leadership = () => (
@@ -117,11 +116,11 @@ const Leadership = () => (
         <p className="text-white/70">People behind the vision — founders and advisors shaping strategy and impact.</p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+      <div className="grid gap-12 md:grid-cols-2 max-w-4xl mx-auto">
         {team.map((member) => (
-          <div key={member.name} className="rounded-2xl overflow-hidden border border-white/8 bg-[#050505] shadow-md">
+          <div key={member.name} className="rounded-2xl overflow-hidden border border-white/8 bg-[#050505] shadow-md w-full">
             <div
-              className="h-72 md:h-80 bg-black/20 bg-center bg-cover"
+              className="h-80 md:h-[420px] bg-black/20 bg-center bg-cover"
               style={{
                 backgroundImage: member.img ? `url(${member.img})` : undefined,
               }}
@@ -133,7 +132,7 @@ const Leadership = () => (
               )}
             </div>
 
-            <div className="px-6 py-5 flex items-center justify-between bg-[#050505]">
+            <div className="px-6 py-6 flex items-center justify-between bg-[#050505]">
               <div>
                 <div className="text-xl text-white font-semibold">{member.name}</div>
                 <div className="text-sm text-white/60 tracking-wider mt-1">{member.role.toUpperCase()}</div>

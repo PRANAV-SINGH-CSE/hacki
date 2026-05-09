@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Leaderboard Sheet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-1: #f7f3ea;
+        --bg-2: #dce9f5;
+        --panel: rgba(255, 255, 255, 0.92);
+        --ink: #1f2f3f;
+        --muted: #5a6677;
+        --line: #d6dde7;
+        --accent: #0d7f84;
+        --accent-2: #ef7a4c;
+        --ok: #1d9a6c;
+        --bad: #c53b3b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 8% 12%, rgba(13, 127, 132, 0.24), transparent 36%),
+          radial-gradient(circle at 90% 10%, rgba(239, 122, 76, 0.2), transparent 35%),
+          linear-gradient(135deg, var(--bg-1), var(--bg-2));
+        padding: 24px;
+      }
+
+      .wrap {
+        max-width: 1280px;
+        margin: 0 auto;
+        animation: rise 420ms ease-out;
+      }
+
+      .head {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.4rem, 2.4vw, 2rem);
+        letter-spacing: 0.3px;
+      }
+
+      .hint {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+      }
+
+      #saveBtn {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 8px 18px rgba(13, 127, 132, 0.28);
+      }
+
+      #clearBtn {
+        background: #f2f5f9;
+        color: #344556;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 16px 42px rgba(23, 40, 61, 0.14);
+        overflow: hidden;
+      }
+
+      .sheet {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        table-layout: fixed;
+        font-size: 0.94rem;
+      }
+
+      .sheet th,
+      .sheet td {
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding: 9px;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .sheet tbody tr:nth-child(even) td {
+        background: #f8fbff;
+      }
+
+      .sheet tr td:first-child,
+      .sheet tr th:first-child {
+        border-left: 1px solid var(--line);
+      }
+
+      .sheet thead th {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+      }
+
+      .sheet th {
+        background: linear-gradient(180deg, #e9f1f9, #dfe9f4);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.76rem;
+        text-align: left;
+        color: #314355;
+      }
+
+      .sheet input[type="text"],
+      .sheet input[type="number"] {
+        width: 100%;
+        border: 1px solid #ccd5df;
+        border-radius: 8px;
+        height: 36px;
+        padding: 0 10px;
+        font: inherit;
+        color: #223446;
+        background: #ffffff;
+        transition: border-color 180ms ease, box-shadow 180ms ease;
+      }
+
+      .sheet input[type="text"]:focus,
+      .sheet input[type="number"]:focus {
+        border-color: rgba(13, 127, 132, 0.72);
+        box-shadow: 0 0 0 3px rgba(13, 127, 132, 0.16);
+        outline: none;
+      }
+
+      .sheet input[type="file"] {
+        width: 100%;
+        font-size: 0.82rem;
+        color: #3a4d61;
+      }
+
+      .thumb {
+        width: 58px;
+        height: 58px;
+        border-radius: 10px;
+        border: 1px dashed #c2cfdd;
+        background: linear-gradient(180deg, #f7fbff, #edf4fb);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+      }
+
+      .preview.has-image {
+        display: block;
+      }
+
+      .preview-empty {
+        color: #698095;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .status {
+        margin: 14px 2px 0;
+        font-weight: 600;
+        min-height: 22px;
+      }
+
+      .status.ok {
+        color: var(--ok);
+      }
+
+      .status.bad {
+        color: var(--bad);
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 980px) {
+        body {
+          padding: 14px;
+        }
+
+        .panel {
+          overflow-x: auto;
+        }
+
+        .sheet {
+          min-width: 1060px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <h1>Event Leaderboard Sheet</h1>
+          <p class="hint">
+            7 input fields per row (Rank 1-10, Name, Students Educated, Schools Educated, Sessions Conducted, Score, Image).
+            Existing rank data is overwritten. You can paste tabular text directly from Excel.
+          </p>
+        </div>
+        <div class="actions">
+          <button id="clearBtn" type="button">Clear Form</button>
+          <button id="saveBtn" type="button">Submit Leaderboard</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <table class="sheet" id="sheet">
+          <thead>
+            <tr>
+              <th style="width: 90px">Rank (1-10)</th>
+              <th>Name</th>
+              <th>No. of Students Educated</th>
+              <th>No. of Schools</th>
+              <th>No. of Session Conducted</th>
+              <th style="width: 130px">Score</th>
+              <th style="width: 230px">Image Upload</th>
+              <th style="width: 80px">Img</th>
+            </tr>
+          </thead>
+          <tbody id="sheetBody"></tbody>
+        </table>
+      </div>
+
+      <p id="status" class="status"></p>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

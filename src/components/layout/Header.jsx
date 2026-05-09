@@ -16,6 +16,7 @@ const navLinks = [
   { label: 'ABOUT', path: '/about' },
   { label: 'ACHIEVEMENTS', path: '/achievements' },
   { label: 'EVENTS', path: '/events' },
+  { label: 'KAVACH 2.0', path: '/leaderboard' },
   { label: 'CONTACT', path: '/contact' },
 ];
 
@@ -123,8 +124,8 @@ const Header = () => {
   return (
     <>
       <motion.header
-        className="fixed inset-x-0 top-0 z-50 flex justify-start pointer-events-none"
-        style={{ y: navY }}
+ className="fixed inset-x-0 top-0 z-[1100] flex justify-start pointer-events-none"
+         style={{ y: navY }}
       >
         <div className="w-full sm:w-auto pointer-events-auto py-4 px-3 sm:py-6 sm:px-6">
           <div className="flex w-full items-center justify-between lg:justify-start gap-4 md:gap-8">
@@ -269,7 +270,7 @@ const Header = () => {
             }}
           >
             <div className="absolute inset-0 bg-gradient-to-b from-[#00f3ff]/5 to-[#bd00ff]/5 pointer-events-none" />
-            
+
             <div className="relative flex flex-col items-center justify-start min-h-screen w-full px-4 py-20 pb-8">
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
