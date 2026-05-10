@@ -263,7 +263,7 @@ const Header = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] lg:hidden overflow-y-auto"
+            className="fixed inset-0 z-[600] lg:hidden overflow-y-auto"
             style={{
               background: 'rgba(2, 2, 2, 0.9)',
               backdropFilter: 'blur(30px) saturate(150%)',
