@@ -239,6 +239,25 @@
   letter-spacing: 0.08em;
 }
 
+.event-github-globe {
+  position: absolute;
+  z-index: 0;
+  right: clamp(-10px, 2.5vw, 54px);
+  top: 37%;
+  width: clamp(560px, 39vw, 760px);
+  aspect-ratio: 1;
+  transform: translateY(-38%);
+  pointer-events: none;
+}
+
+.event-github-globe-canvas {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .leaderboard-shell {
   position: relative;
   width: min(1810px, calc(100vw - 14px));
@@ -759,6 +778,10 @@
   }
 
   .event-security-stack {
+    display: none;
+  }
+
+  .event-github-globe {
     display: none;
   }
 

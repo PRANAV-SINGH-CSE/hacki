@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { getApps, initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref } from "firebase/database";
 import { Crosshair, Crown, Shield, Swords } from "lucide-react";
 import "./Leaderboard.css";
+
+const GithubGlobe = lazy(() => import("../components/ui/GithubGlobe"));
 
 type LeaderboardItem = {
   rank?: number | string;
@@ -111,10 +113,30 @@ const RankBadge = ({ rank }: { rank: number }) => {
   );
 };
 
+const useDesktopGlobe = () => {
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(min-width: 981px)").matches;
+  });
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 981px)");
+    const update = () => setIsDesktop(query.matches);
+
+    update();
+    query.addEventListener("change", update);
+
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  return isDesktop;
+};
+
 const Leaderboard = () => {
   const [rows, setRows] = useState<LeaderboardItem[]>([]);
   const [status, setStatus] = useState("");
   const [isError, setIsError] = useState(false);
+  const shouldRenderGlobe = useDesktopGlobe();
 
   useEffect(() => {
     if (missingVars.length > 0) {
@@ -227,6 +249,14 @@ const Leaderboard = () => {
           <span>Detect</span>
           <span>Respond</span>
         </div> */}
+
+        {shouldRenderGlobe ? (
+          <div className="event-github-globe" aria-hidden="true">
+            <Suspense fallback={null}>
+              <GithubGlobe className="event-github-globe-canvas" />
+            </Suspense>
+          </div>
+        ) : null}
       </div>
 
       <div className="leaderboard-shell" id="kavach-leaderboard">

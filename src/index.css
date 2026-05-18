@@ -277,6 +277,31 @@ body {
   pointer-events: none;
 }
 
+.route-loader {
+  min-height: 52vh;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(0, 224, 255, 0.09), transparent 34%),
+    #050505;
+}
+
+.route-loader__ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 2px solid rgba(0, 224, 255, 0.14);
+  border-top-color: rgba(0, 224, 255, 0.85);
+  box-shadow: 0 0 18px rgba(0, 224, 255, 0.16);
+  animation: route-loader-spin 780ms linear infinite;
+}
+
+@keyframes route-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .page-loader::before {
   content: "";
   position: absolute;

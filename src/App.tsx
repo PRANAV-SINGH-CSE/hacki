@@ -1,19 +1,20 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { useRef, useEffect, useState, type ReactNode } from "react";
+import { Suspense, lazy, useRef, useEffect, useState, type ReactNode } from "react";
 import Lenis from "lenis";
 import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Achievements from "./pages/Achievements";
-import Events from "./pages/Events";
-import Contact from "./pages/ContactPage";
-import Leaderboard from "./pages/Leaderboard";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 import PageWrapper from "./components/shared/PageWrapper";
+
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Achievements = lazy(() => import("./pages/Achievements"));
+const Events = lazy(() => import("./pages/Events"));
+const Contact = lazy(() => import("./pages/ContactPage"));
+const Leaderboard = lazy(() => import("./pages/Leaderboard"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
 
 const routeOrder: Record<string, number> = {
   "/": 0,
@@ -41,80 +42,82 @@ const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait" initial={false}>
-      <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={
-            <PageWrapper direction={direction}>
-              <Home />
-            </PageWrapper>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <PageWrapper direction={direction}>
-              <About />
-            </PageWrapper>
-          }
-        />
-        <Route
-          path="/achievements"
-          element={
-            <PageWrapper direction={direction}>
-              <Achievements />
-            </PageWrapper>
-          }
-        />
-        <Route
-          path="/events"
-          element={
-            <PageWrapper direction={direction}>
-              <Events />
-            </PageWrapper>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <PageWrapper direction={direction}>
-              <Contact />
-            </PageWrapper>
-          }
-        />
-        <Route
-          path="/leaderboard"
-          element={
-            <PageWrapper direction={direction}>
-              <Leaderboard />
-            </PageWrapper>
-          }
-        />
-        <Route
-          path="/blog"
-          element={
-            <PageWrapper direction={direction}>
-              <Contact />
-            </PageWrapper>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <PageWrapper direction={direction}>
-              <Login />
-            </PageWrapper>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <PageWrapper direction={direction}>
-              <Register />
-            </PageWrapper>
-          }
-        />
-      </Routes>
+      <Suspense fallback={<RouteLoader />}>
+        <Routes location={location} key={location.pathname}>
+          <Route
+            path="/"
+            element={
+              <PageWrapper direction={direction}>
+                <Home />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <PageWrapper direction={direction}>
+                <About />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/achievements"
+            element={
+              <PageWrapper direction={direction}>
+                <Achievements />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/events"
+            element={
+              <PageWrapper direction={direction}>
+                <Events />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <PageWrapper direction={direction}>
+                <Contact />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/leaderboard"
+            element={
+              <PageWrapper direction={direction}>
+                <Leaderboard />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/blog"
+            element={
+              <PageWrapper direction={direction}>
+                <Contact />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PageWrapper direction={direction}>
+                <Login />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PageWrapper direction={direction}>
+                <Register />
+              </PageWrapper>
+            }
+          />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 };
@@ -124,8 +127,8 @@ const App = () => {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    const minDurationMs = 2000;
-    const exitDurationMs = 900;
+    const minDurationMs = 650;
+    const exitDurationMs = 420;
     const start = performance.now();
     let timeoutId = 0;
 
@@ -213,6 +216,12 @@ const PageLoader = ({ isExiting }: { isExiting: boolean }) => (
         </div>
       </div>
     </div>
+  </div>
+);
+
+const RouteLoader = () => (
+  <div className="route-loader" role="status" aria-label="Loading page">
+    <span className="route-loader__ring" />
   </div>
 );
 
