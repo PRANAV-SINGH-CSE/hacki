@@ -48,21 +48,6 @@ type GithubGlobeProps = {
 
 const cameraZ = 300;
 
-const hexToRgb = (hex: string) => {
-  const normalized = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (_match, r, g, b) => {
-    return r + r + g + g + b + b;
-  });
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(normalized);
-
-  return result
-    ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-      }
-    : { r: 0, g: 234, b: 255 };
-};
-
 
 const WebGLRendererConfig = () => {
   const { gl, size } = useThree();
