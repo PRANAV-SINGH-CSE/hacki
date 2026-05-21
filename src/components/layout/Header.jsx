@@ -135,10 +135,8 @@ const Header = () => {
               to="/" 
               className={cn(
                 "flex items-center gap-2 z-20 flex-shrink-0 group transition-all duration-300",
-                // Mobile: Darker background
                 "p-2 pr-4 rounded-full bg-black/40 backdrop-blur-md border border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]",
-                // Desktop: Reset
-                "sm:p-0 sm:bg-transparent sm:backdrop-blur-none sm:border-none sm:shadow-none sm:rounded-none"
+                "hover:bg-black/50 hover:border-white/10"
               )}
             >
               <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden border border-white/10 group-hover:border-[#bd00ff]/50 transition-colors shadow-[0_0_15px_rgba(0,0,0,0.5)]">
@@ -263,7 +261,7 @@ const Header = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[600] lg:hidden overflow-y-auto"
+            className="fixed inset-0 z-[1200] lg:hidden overflow-y-auto"
             style={{
               background: 'rgba(2, 2, 2, 0.9)',
               backdropFilter: 'blur(30px) saturate(150%)',
@@ -274,7 +272,7 @@ const Header = () => {
             <div className="relative flex flex-col items-center justify-start min-h-screen w-full px-4 py-20 pb-8">
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="absolute top-6 right-6 p-2 text-white/60 active:text-white transition-colors hover:rotate-90 duration-300"
+                className="absolute top-6 right-6 z-[1201] p-2 text-white/60 active:text-white transition-colors hover:rotate-90 duration-300"
               >
                 <X size={32} />
               </button>

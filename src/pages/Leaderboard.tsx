@@ -160,7 +160,36 @@ const Leaderboard = () => {
   const [rows, setRows] = useState<LeaderboardItem[]>([]);
   const [status, setStatus] = useState("");
   const [isError, setIsError] = useState(false);
+  const [isGlobeReady, setIsGlobeReady] = useState(false);
   const shouldRenderGlobe = useDesktopGlobe();
+
+  useEffect(() => {
+    if (!shouldRenderGlobe) {
+      setIsGlobeReady(false);
+      return;
+    }
+
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    const triggerGlobe = () => {
+      timeoutId = setTimeout(() => {
+        setIsGlobeReady(true);
+      }, 500);
+    };
+
+    if (document.readyState === "complete") {
+      triggerGlobe();
+    } else {
+      window.addEventListener("load", triggerGlobe, { once: true });
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      window.removeEventListener("load", triggerGlobe);
+    };
+  }, [shouldRenderGlobe]);
 
   useEffect(() => {
     if (missingVars.length > 0) {
@@ -268,7 +297,7 @@ const Leaderboard = () => {
           </div>
         </div>
 
-        {shouldRenderGlobe ? (
+        {shouldRenderGlobe && isGlobeReady ? (
           <div className="event-github-globe" aria-hidden="true">
             <Suspense fallback={null}>
               <GithubGlobe className="event-github-globe-canvas" />

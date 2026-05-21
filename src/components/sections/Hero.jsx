@@ -15,32 +15,32 @@ const prefersReducedMotion = () => {
 };
 
 const NetworkMesh = () => (
-  <svg className="w-full h-full opacity-30" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg className="w-full h-full opacity-80 drop-shadow-[0_0_10px_rgba(0,243,255,0.4)]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
     <motion.g
       initial={{ rotate: 0 }}
       animate={{ rotate: 360 }}
       transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
       style={{ transformOrigin: "center" }}
     >
-      <circle cx="200" cy="200" r="150" stroke="url(#paint0_linear)" strokeWidth="0.5" strokeDasharray="4 4" />
-      <circle cx="200" cy="200" r="100" stroke="url(#paint0_linear)" strokeWidth="0.5" />
-      <path d="M200 50 L200 350" stroke="rgba(0, 243, 255, 0.2)" strokeWidth="0.5" />
-      <path d="M50 200 L350 200" stroke="rgba(0, 243, 255, 0.2)" strokeWidth="0.5" />
+      <circle cx="200" cy="200" r="150" stroke="url(#paint0_linear)" strokeWidth="0.8" strokeDasharray="4 4" />
+      <circle cx="200" cy="200" r="100" stroke="url(#paint0_linear)" strokeWidth="0.8" />
+      <path d="M200 50 L200 350" stroke="rgba(0, 243, 255, 0.4)" strokeWidth="0.8" />
+      <path d="M50 200 L350 200" stroke="rgba(0, 243, 255, 0.4)" strokeWidth="0.8" />
       
       {/* Floating Nodes */}
-      <circle cx="200" cy="50" r="2" fill="#00F3FF" />
-      <circle cx="350" cy="200" r="2" fill="#00F3FF" />
-      <circle cx="200" cy="350" r="2" fill="#00F3FF" />
-      <circle cx="50" cy="200" r="2" fill="#00F3FF" />
+      <circle cx="200" cy="50" r="2.5" fill="#00F3FF" />
+      <circle cx="350" cy="200" r="2.5" fill="#00F3FF" />
+      <circle cx="200" cy="350" r="2.5" fill="#00F3FF" />
+      <circle cx="50" cy="200" r="2.5" fill="#00F3FF" />
       
       {/* Connecting Arcs */}
-      <path d="M200 50 Q 280 80 306 150" stroke="rgba(0, 243, 255, 0.1)" strokeWidth="0.5" fill="none" />
-      <path d="M200 350 Q 120 320 94 250" stroke="rgba(0, 243, 255, 0.1)" strokeWidth="0.5" fill="none" />
+      <path d="M200 50 Q 280 80 306 150" stroke="rgba(0, 243, 255, 0.3)" strokeWidth="0.8" fill="none" />
+      <path d="M200 350 Q 120 320 94 250" stroke="rgba(0, 243, 255, 0.3)" strokeWidth="0.8" fill="none" />
     </motion.g>
     <defs>
       <linearGradient id="paint0_linear" x1="50" y1="50" x2="350" y2="350" gradientUnits="userSpaceOnUse">
         <stop stopColor="rgba(0, 243, 255, 0)" />
-        <stop offset="0.5" stopColor="rgba(0, 243, 255, 0.3)" />
+        <stop offset="0.5" stopColor="rgba(0, 243, 255, 0.7)" />
         <stop offset="1" stopColor="rgba(0, 243, 255, 0)" />
       </linearGradient>
     </defs>
@@ -68,21 +68,17 @@ const Hero = () => {
 
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#000000] pb-0">
-      
-      {/* BACKGROUND DEPTH */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none"
+      <div
+        className="absolute inset-0 z-0 bg-center bg-cover bg-no-repeat"
         style={{
-          background: `
-            radial-gradient(circle at 30% 20%, rgba(0,243,255,0.06), transparent 40%),
-            radial-gradient(circle at 70% 80%, rgba(155,239,255,0.04), transparent 45%)
-          `
+          backgroundImage: `url("${process.env.PUBLIC_URL}/hero/background_image_1.png")`,
         }}
+        aria-hidden="true"
       />
 
       {/* NOISE OVERLAY */}
       <div 
-        className="absolute inset-0 z-[1] pointer-events-none opacity-[0.04] mix-blend-overlay"
+        className="absolute inset-0 z-[2] pointer-events-none opacity-[0.04] mix-blend-overlay"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
         }}
@@ -90,7 +86,7 @@ const Hero = () => {
 
       {/* LAYOUT CONTAINER */}
       {/* UPDATE: Reduced mobile pt-24 to pt-20 (80px). Keeps content very high. */}
-      <div className="container relative z-10 mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center h-full pt-50 pb-10 lg:pt-[130px] lg:pb-[68px] scale-100 lg:scale-[1.05] origin-center">
+      <div className="container relative z-[10] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center h-full pt-50 pb-10 lg:pt-[130px] lg:pb-[68px] scale-100 lg:scale-[1.05] origin-center">
         
         {/* LEFT COLUMN */}
         <motion.div
@@ -174,12 +170,21 @@ const Hero = () => {
           className="hidden lg:flex lg:col-span-4 justify-center items-center relative h-[600px]"
         >
           {/* Abstract Cyber Element */}
-          <div className="absolute inset-0 flex items-center justify-center">
-             <NetworkMesh />
+          <div
+            className="absolute pointer-events-none"
+            style={{
+              right: '0%',
+              top: '42%',
+              transform: 'translateY(-50%)',
+              width: '500px',
+              height: '500px',
+            }}
+          >
+            {/* Removed subtle glow behind the mesh */}
+            <div style={{ width: '100%', height: '100%' }}>
+              <NetworkMesh />
+            </div>
           </div>
-          
-          {/* Subtle glow behind the mesh */}
-          <div className="absolute inset-0 bg-cyan-500/5 blur-[100px] rounded-full pointer-events-none" />
         </motion.div>
       </div>
     </section>

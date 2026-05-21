@@ -175,17 +175,12 @@ const About = () => {
     <>
       {/* HERO SECTION */}
       <section className="relative h-screen min-h-screen overflow-hidden bg-[#000000]">
-        
-        {/* BACKGROUND DEPTH */}
-        <div 
-          className="absolute inset-0 z-0 pointer-events-none"
+        <div
+          className="absolute inset-0 z-0 bg-center bg-cover bg-no-repeat"
           style={{
-            background: `
-              radial-gradient(circle at 50% 0%, rgba(0,243,255,0.15), transparent 75%),
-              radial-gradient(circle at 0% 100%, rgba(0,243,255,0.05), transparent 40%),
-              radial-gradient(circle at 100% 100%, rgba(0,243,255,0.05), transparent 40%)
-            `
+            backgroundImage: `url("${process.env.PUBLIC_URL}/about us/background_image_1.png")`,
           }}
+          aria-hidden="true"
         />
 
         {/* NOISE OVERLAY */}
