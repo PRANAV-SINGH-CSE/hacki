@@ -42,22 +42,11 @@ type WorldProps = {
   data: Position[];
 };
 
-type GlobePoint = {
-  size: number;
-  order: number;
-  color: string;
-  lat: number;
-  lng: number;
-};
-
 type GithubGlobeProps = {
   className?: string;
 };
 
-const RING_PROPAGATION_SPEED = 3;
 const cameraZ = 300;
-
-let ringIndexes = [0];
 
 const hexToRgb = (hex: string) => {
   const normalized = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (_match, r, g, b) => {
@@ -74,16 +63,6 @@ const hexToRgb = (hex: string) => {
     : { r: 0, g: 234, b: 255 };
 };
 
-const genRandomNumbers = (min: number, max: number, count: number) => {
-  const arr: number[] = [];
-
-  while (arr.length < count) {
-    const r = Math.floor(Math.random() * (max - min)) + min;
-    if (arr.indexOf(r) === -1) arr.push(r);
-  }
-
-  return arr;
-};
 
 const WebGLRendererConfig = () => {
   const { gl, size } = useThree();
@@ -100,7 +79,6 @@ const WebGLRendererConfig = () => {
 const Globe = ({ globeConfig, data }: WorldProps) => {
   const groupRef = useRef<Group | null>(null);
   const globeRef = useRef<ThreeGlobe | null>(null);
-  const [globeData, setGlobeData] = useState<GlobePoint[] | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
   const defaultProps = useMemo(
@@ -163,33 +141,6 @@ const Globe = ({ globeConfig, data }: WorldProps) => {
   useEffect(() => {
     if (!globeRef.current || !isInitialized) return;
 
-    const points: GlobePoint[] = [];
-    data.forEach((arc) => {
-      const rgb = hexToRgb(arc.color);
-      const pointColor = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-
-      points.push({
-        size: defaultProps.pointSize,
-        order: arc.order,
-        color: pointColor,
-        lat: arc.startLat,
-        lng: arc.startLng,
-      });
-      points.push({
-        size: defaultProps.pointSize,
-        order: arc.order,
-        color: pointColor,
-        lat: arc.endLat,
-        lng: arc.endLng,
-      });
-    });
-
-    const filteredPoints = points.filter((point, index, arr) => {
-      return arr.findIndex((candidate) => candidate.lat === point.lat && candidate.lng === point.lng) === index;
-    });
-
-    setGlobeData(filteredPoints);
-
     globeRef.current
       .hexPolygonsData((countries as { features: object[] }).features)
       .hexPolygonResolution(3)
@@ -199,37 +150,14 @@ const Globe = ({ globeConfig, data }: WorldProps) => {
       .atmosphereAltitude(defaultProps.atmosphereAltitude)
       .hexPolygonColor(() => defaultProps.polygonColor);
 
-    globeRef.current
-      .arcsData(data)
-      .arcStartLat((d: object) => (d as Position).startLat)
-      .arcStartLng((d: object) => (d as Position).startLng)
-      .arcEndLat((d: object) => (d as Position).endLat)
-      .arcEndLng((d: object) => (d as Position).endLng)
-      .arcColor((d: object) => (d as Position).color)
-      .arcAltitude((d: object) => (d as Position).arcAlt)
-      .arcStroke(() => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
-      .arcDashLength(defaultProps.arcLength)
-      .arcDashInitialGap((d: object) => (d as Position).order)
-      .arcDashGap(15)
-      .arcDashAnimateTime(() => defaultProps.arcTime);
+    // Disable arcs and connecting lines entirely
+    globeRef.current.arcsData([]);
 
-    globeRef.current
-      .pointsData(filteredPoints)
-      .pointColor((d: object) => (d as GlobePoint).color)
-      .pointsMerge(true)
-      .pointAltitude(0)
-      .pointRadius(2);
+    // Disable endpoint dots
+    globeRef.current.pointsData([]);
 
-    globeRef.current
-      .ringsData([])
-      .ringColor((d: object) => (t: number) => {
-        const point = d as GlobePoint;
-        const rgb = hexToRgb(point.color);
-        return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${1 - t})`;
-      })
-      .ringMaxRadius(defaultProps.maxRings)
-      .ringPropagationSpeed(RING_PROPAGATION_SPEED)
-      .ringRepeatPeriod((defaultProps.arcTime * defaultProps.arcLength) / defaultProps.rings);
+    // Ensure rings are disabled as well
+    globeRef.current.ringsData([]);
   }, [
     data,
     defaultProps.arcLength,
@@ -243,21 +171,6 @@ const Globe = ({ globeConfig, data }: WorldProps) => {
     defaultProps.showAtmosphere,
     isInitialized,
   ]);
-
-  useEffect(() => {
-    if (!globeRef.current || !globeData) return undefined;
-
-    const interval = window.setInterval(() => {
-      if (!globeRef.current || !globeData.length) return;
-
-      ringIndexes = genRandomNumbers(0, globeData.length, Math.floor((globeData.length * 4) / 5));
-      globeRef.current.ringsData(globeData.filter((_point, index) => ringIndexes.includes(index)));
-    }, 2000);
-
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, [globeData]);
 
   return <group ref={groupRef} />;
 };

@@ -14,38 +14,15 @@
   padding: 0 0 34px;
   overflow: clip;
   background:
-    radial-gradient(circle at 62% -8%, rgba(0, 194, 255, 0.2), transparent 20%),
-    radial-gradient(circle at 94% 13%, rgba(0, 118, 255, 0.13), transparent 18%),
     linear-gradient(180deg, rgba(1, 8, 17, 0.92), rgba(1, 9, 19, 0.96)),
     url("../assets/leaderboard-bg.png");
-  background-size: auto, auto, auto, cover;
+  background-size: auto, cover;
   background-position: center;
 }
 
 .leaderboard-page::before,
 .leaderboard-page::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.leaderboard-page::before {
-  opacity: 0.5;
-  background:
-    radial-gradient(circle at 1px 1px, rgba(0, 234, 255, 0.28) 1px, transparent 1.5px) 0 28px / 12px 12px,
-    linear-gradient(90deg, transparent 0 17%, rgba(0, 234, 255, 0.1) 17.1% 17.4%, transparent 17.5%),
-    linear-gradient(180deg, rgba(0, 234, 255, 0.08), transparent 22%);
-  mask-image: linear-gradient(90deg, #000 0 10%, transparent 34% 100%);
-}
-
-.leaderboard-page::after {
-  background:
-    radial-gradient(circle at 94% 12%, transparent 0 58px, rgba(0, 234, 255, 0.08) 59px, transparent 60px),
-    radial-gradient(circle at 98% 70%, transparent 0 10px, rgba(0, 234, 255, 0.16) 11px, transparent 12px),
-    linear-gradient(135deg, transparent 0 84%, rgba(0, 234, 255, 0.08) 84.1%, transparent 84.35%);
-  opacity: 0.85;
+  display: none;
 }
 
 .leaderboard-event-intro {
@@ -83,10 +60,7 @@
 }
 
 .leaderboard-event-intro::after {
-  background:
-    linear-gradient(90deg, rgba(0, 234, 255, 0.2), transparent 20%, transparent 84%, rgba(0, 234, 255, 0.12)),
-    linear-gradient(180deg, transparent 0 88%, rgba(0, 234, 255, 0.1) 100%);
-  opacity: 0.55;
+  display: none;
 }
 
 .leaderboard-event-content {
@@ -269,33 +243,12 @@
     linear-gradient(180deg, rgba(1, 12, 21, 0.88), rgba(1, 10, 18, 0.9)),
     radial-gradient(circle at 74% 0, rgba(0, 234, 255, 0.08), transparent 34%); */
   box-shadow:
-    inset 0 0 0 1px rgba(0, 234, 255, 0.04),
-    inset 0 0 46px rgba(0, 16, 28, 0.8),
     0 0 38px rgba(0, 0, 0, 0.42);
 }
 
 .leaderboard-shell::before,
 .leaderboard-shell::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-}
-
-.leaderboard-shell::before {
-  inset: 26px 22px auto auto;
-  width: 240px;
-  height: 86px;
-  background: radial-gradient(circle at 1px 1px, rgba(0, 234, 255, 0.34) 1px, transparent 1.5px) 0 0 / 13px 13px;
-  opacity: 0.36;
-}
-
-.leaderboard-shell::after {
-  right: 17px;
-  bottom: 0;
-  width: 56px;
-  height: 1px;
-  background: var(--lb-cyan);
-  box-shadow: -84vw -552px 0 rgba(0, 234, 255, 0.62), 0 0 12px rgba(0, 234, 255, 0.8);
+  display: none;
 }
 
 .leaderboard-hero {
@@ -375,13 +328,13 @@
   height: 58px;
   padding: 0 40px;
   margin: 0 0 8px;
-  border: 1px solid rgba(0, 166, 206, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 4px;
   color: rgba(0, 234, 255, 0.7);
   background:
     linear-gradient(90deg, rgba(0, 31, 43, 0.82), rgba(1, 17, 29, 0.94) 32%, rgba(0, 38, 50, 0.7)),
     linear-gradient(180deg, rgba(10, 36, 52, 0.72), rgba(0, 11, 20, 0.92));
-  box-shadow: 0 13px 20px rgba(0, 0, 0, 0.28), inset 0 -1px 18px rgba(0, 234, 255, 0.08);
+  box-shadow: 0 13px 20px rgba(0, 0, 0, 0.28);
   clip-path: polygon(9px 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 9px 100%, 0 50%);
   font-family: "Orbitron", sans-serif;
   font-size: 14px;
@@ -415,13 +368,13 @@
   min-height: 60px;
   margin-bottom: 10px;
   padding: 0 40px;
-  border: 1px solid rgba(0, 174, 221, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   color: var(--lb-text);
   background:
     linear-gradient(90deg, rgba(0, 43, 55, 0.36), rgba(3, 15, 27, 0.76) 24%, rgba(4, 17, 28, 0.7)),
     linear-gradient(180deg, rgba(0, 57, 73, 0.18), rgba(0, 8, 15, 0.4));
-  box-shadow: inset 0 0 18px rgba(0, 214, 255, 0.025);
+  box-shadow: none;
   clip-path: polygon(10px 0, calc(100% - 9px) 0, 100% 24%, 100% 76%, calc(100% - 9px) 100%, 10px 100%, 0 76%, 0 24%);
 }
 
@@ -578,15 +531,7 @@
 }
 
 .score-cell::after {
-  content: "";
-  position: absolute;
-  right: -2px;
-  top: 50%;
-  width: 1px;
-  height: 29px;
-  transform: translateY(-50%);
-  background: var(--rank-color);
-  box-shadow: 0 0 9px var(--rank-color), 18px 0 24px rgba(var(--rank-rgb), 0.58);
+  display: none;
 }
 
 .leaderboard-status {
@@ -739,6 +684,214 @@
   text-shadow: 0 0 10px rgba(var(--rank-rgb), 0.75);
 }
 
+/* ═══════════════════════════════════════════════════
+   Kavach 2.0 — The Event That Inspires
+   ═══════════════════════════════════════════════════ */
+
+.kavach-inspires {
+  position: relative;
+  border-top: 40px solid #000;
+  padding: 90px clamp(28px, 5vw, 96px) 100px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.kavach-inspires-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Dark overlay only — no blue/cyan tint */
+.kavach-inspires::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.68) 35%, rgba(0, 0, 0, 0.64) 65%, rgba(0, 0, 0, 0.88) 100%);
+}
+
+.kavach-inspires::after {
+  display: none;
+}
+
+.kavach-inspires-glow {
+  display: none;
+}
+
+.kavach-inspires-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.kavach-inspires-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.kavach-inspires-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 22px;
+  margin-bottom: 22px;
+  border: 1px solid rgba(0, 234, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(0, 234, 255, 0.04);
+  color: var(--lb-cyan);
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 234, 255, 0.5);
+}
+
+.kavach-inspires-title {
+  margin: 0 0 6px;
+  color: #f0f6ff;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(38px, 4.2vw, 64px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+.kavach-inspires-subtitle {
+  margin: 0 0 32px;
+  color: rgba(200, 215, 230, 0.55);
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(13px, 1.4vw, 19px);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.kavach-inspires-desc {
+  max-width: 720px;
+  margin: 0 auto;
+  color: rgba(200, 215, 230, 0.7);
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.7;
+}
+
+/* ── Kavach Highlight Cards ── */
+
+.kavach-inspires-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.kavach-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 26px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(6, 10, 18, 0.72);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.35s ease;
+}
+
+.kavach-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.kavach-card-glow {
+  display: none;
+}
+
+.kavach-card-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 20px;
+  border: 1.5px solid rgba(0, 234, 255, 0.25);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.kavach-card-cyan .kavach-card-icon-wrap {
+  border-color: rgba(0, 234, 255, 0.3);
+  color: var(--lb-cyan);
+}
+
+.kavach-card-cyan .kavach-card-icon-wrap svg {
+  filter: drop-shadow(0 0 5px rgba(0, 234, 255, 0.35));
+}
+
+.kavach-card-violet .kavach-card-icon-wrap {
+  border-color: rgba(138, 84, 255, 0.3);
+  color: #a66dff;
+}
+
+.kavach-card-violet .kavach-card-icon-wrap svg {
+  filter: drop-shadow(0 0 5px rgba(138, 84, 255, 0.35));
+}
+
+.kavach-card-green .kavach-card-icon-wrap {
+  border-color: rgba(41, 220, 102, 0.3);
+  color: #29dc66;
+}
+
+.kavach-card-green .kavach-card-icon-wrap svg {
+  filter: drop-shadow(0 0 5px rgba(41, 220, 102, 0.35));
+}
+
+.kavach-card-title {
+  position: relative;
+  margin: 0 0 12px;
+  padding-left: 18px;
+  color: #e4eaf2;
+  font-family: "Orbitron", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.kavach-card-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 10px;
+  height: 2px;
+  transform: translateY(-50%);
+  background: currentColor;
+  opacity: 0.45;
+}
+
+.kavach-card-desc {
+  margin: 0;
+  color: rgba(180, 195, 210, 0.65);
+  font-size: 13px;
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* No colored top-border accents */
+.kavach-card::before {
+  display: none;
+}
+
 @media (max-width: 980px) {
   .leaderboard-event-intro {
     align-items: center;
@@ -799,6 +952,21 @@
   .leaderboard-head,
   .leaderboard-row {
     min-width: 860px;
+  }
+
+  .kavach-inspires {
+    padding: 72px 24px 80px;
+  }
+
+  .kavach-inspires-cards {
+    grid-template-columns: 1fr;
+    max-width: 540px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+
+  .kavach-card {
+    padding: 30px 26px 28px;
   }
 }
 
@@ -933,7 +1101,7 @@
     overflow-y: hidden;
     padding-bottom: 12px;
     -webkit-overflow-scrolling: touch;
-    scrollbar-color: #00f0c8 rgba(0, 234, 255, 0.08);
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.2);
     scrollbar-width: auto;
   }
 
@@ -943,14 +1111,14 @@
 
   .leaderboard-board::-webkit-scrollbar-track {
     border-radius: 999px;
-    background: rgba(0, 234, 255, 0.08);
+    background: rgba(0, 0, 0, 0.2);
   }
 
   .leaderboard-board::-webkit-scrollbar-thumb {
     border: 3px solid rgba(2, 9, 18, 0.96);
     border-radius: 999px;
-    background: linear-gradient(90deg, #00eaff, #00f0a8);
-    box-shadow: 0 0 10px rgba(0, 234, 255, 0.6);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: none;
   }
 
   .leaderboard-head,
@@ -1081,5 +1249,54 @@
   .leaderboard-rank-number {
     min-width: 32px;
     font-size: 28px;
+  }
+
+  .kavach-inspires {
+    padding: 56px 14px 64px;
+  }
+
+  .kavach-inspires-header {
+    margin-bottom: 40px;
+  }
+
+  .kavach-inspires-title {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .kavach-inspires-subtitle {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+  }
+
+  .kavach-inspires-desc {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .kavach-inspires-cards {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    gap: 16px;
+  }
+
+  .kavach-card {
+    padding: 26px 20px 24px;
+    border-radius: 16px;
+  }
+
+  .kavach-card-icon-wrap {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+  }
+
+  .kavach-card-title {
+    font-size: 12px;
+  }
+
+  .kavach-card-desc {
+    font-size: 12.5px;
+    line-height: 1.55;
   }
 }

@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { getApps, initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref } from "firebase/database";
-import { Crosshair, Crown, Shield, Swords } from "lucide-react";
+import { Crosshair, Crown, Globe, Shield, Swords, Target, Users } from "lucide-react";
 import "./Leaderboard.css";
 
 const GithubGlobe = lazy(() => import("../components/ui/GithubGlobe"));
@@ -81,6 +81,30 @@ const signaturePrograms = [
     detail: "Live Simulations",
     icon: Crosshair,
     accent: "cyan",
+  },
+];
+
+const kavachHighlights = [
+  {
+    title: "Event Overview",
+    description:
+      "Kavach 2.0 is a nationwide cybersecurity awareness initiative organized by Hackiware. The event brings together students, educators, and industry experts to build a safer digital ecosystem through hands-on workshops, interactive sessions, and live CTF challenges.",
+    icon: Globe,
+    accent: "cyan",
+  },
+  {
+    title: "Cyber Awareness Mission",
+    description:
+      "Our mission is to educate 50,000+ students across 500 schools on cyber hygiene, digital safety, and ethical hacking fundamentals. Each session transforms participants from passive users into proactive defenders of their digital lives.",
+    icon: Target,
+    accent: "violet",
+  },
+  {
+    title: "Impact & Reach",
+    description:
+      "With 200+ certified trainers deployed across 15 states, Kavach 2.0 has already conducted 800+ sessions. Participants gain real-world skills in phishing detection, password security, social engineering defense, and incident reporting.",
+    icon: Users,
+    accent: "green",
   },
 ];
 
@@ -244,12 +268,6 @@ const Leaderboard = () => {
           </div>
         </div>
 
-        {/* <div className="event-security-stack" aria-label="Kavach security cycle">
-          <span>Secure</span>
-          <span>Detect</span>
-          <span>Respond</span>
-        </div> */}
-
         {shouldRenderGlobe ? (
           <div className="event-github-globe" aria-hidden="true">
             <Suspense fallback={null}>
@@ -259,7 +277,54 @@ const Leaderboard = () => {
         ) : null}
       </div>
 
-      <div className="leaderboard-shell" id="kavach-leaderboard">
+      {/* ── Kavach 2.0 — The Event That Inspires ── */}
+      <div className="kavach-inspires" id="kavach-about">
+        <div
+          className="kavach-inspires-bg"
+          style={{ backgroundImage: `url("${process.env.PUBLIC_URL}/events/kavach2.0/background_page2.png")` }}
+          aria-hidden="true"
+        />
+        <div className="kavach-inspires-glow" aria-hidden="true" />
+        <div className="kavach-inspires-inner">
+          <div className="kavach-inspires-header">
+            <span className="kavach-inspires-badge">About the Event</span>
+            <h2 className="kavach-inspires-title">The Event That Inspires</h2>
+            <p className="kavach-inspires-subtitle">Kavach 2.0</p>
+            <p className="kavach-inspires-desc">
+              A transformative cybersecurity awareness campaign empowering the next generation
+              with digital defense skills. From interactive workshops to competitive CTF challenges,
+              Kavach 2.0 is where knowledge meets action — inspiring thousands of students
+              to become the cyber guardians of tomorrow.
+            </p>
+          </div>
+
+          <div className="kavach-inspires-cards" aria-label="Kavach 2.0 key highlights">
+            {kavachHighlights.map((card) => {
+              const CardIcon = card.icon;
+              return (
+                <div className={`kavach-card kavach-card-${card.accent}`} key={card.title}>
+                  <div className="kavach-card-icon-wrap">
+                    <CardIcon size={32} strokeWidth={1.6} aria-hidden="true" />
+                  </div>
+                  <h3 className="kavach-card-title">{card.title}</h3>
+                  <p className="kavach-card-desc">{card.description}</p>
+                  <div className="kavach-card-glow" aria-hidden="true" />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div 
+        className="leaderboard-shell" 
+        id="kavach-leaderboard"
+        style={{ 
+          backgroundImage: `linear-gradient(180deg, rgb(2, 2, 3), rgba(0, 0, 0, 0.3)), url("${process.env.PUBLIC_URL}/events/kavach2.0/background_page4.png")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }}
+      >
         <div className="leaderboard-hero">
           <div>
             <div className="leaderboard-kicker">KAVACH 2.0</div>

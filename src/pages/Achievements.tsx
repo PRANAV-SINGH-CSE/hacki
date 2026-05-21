@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import AchievementsGrid from "../components/sections/AchievementsGrid";
 import CountUpMetrics from "../components/ui/CountUp";
-import SpatialProductShowcase from "../components/ui/spatial-product-showcase";
+import SpatialProductShowcase from "../components/ui/spatial-product-showcase/index";
 import LogoMarquee from "../components/sections/LogoMarquee";
 import AchievementImagesScroll from "../components/sections/AchievementImagesScroll";
 import LetterRecommendationScroll from "../components/sections/LetterRecommendationScroll";
