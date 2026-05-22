@@ -6,7 +6,7 @@ import {
   COLLECTIONS,
 } from "../firestore";
 import { Post, CreatePostData } from "../types";
-import { query, where, orderBy } from "firebase/firestore";
+import { where, orderBy } from "firebase/firestore";
 
 /**
  * Create a new post

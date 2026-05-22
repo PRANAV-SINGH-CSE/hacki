@@ -1,6 +1,5 @@
 'use client';
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useSpring, useTransform } from 'framer-motion';
+import React, { useRef, useState } from 'react';
 import { cn } from '../../lib/utils';
 
 export function Spotlight({

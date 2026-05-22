@@ -1,7 +1,6 @@
 import React from "react";
 import { ContainerScroll } from "../../ui/container-scroll-animation";
 import { motion } from "framer-motion";
-import SplineScene from "../../ui/splite";
 
 /**
  * Event Section Template

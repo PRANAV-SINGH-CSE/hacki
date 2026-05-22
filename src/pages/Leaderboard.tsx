@@ -1,10 +1,8 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getApps, initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref } from "firebase/database";
 import { Crosshair, Crown, Globe, Shield, Swords, Target, Users } from "lucide-react";
 import "./Leaderboard.css";
-
-const GithubGlobe = lazy(() => import("../components/ui/GithubGlobe"));
 
 type LeaderboardItem = {
   rank?: number | string;
@@ -135,25 +133,6 @@ const RankBadge = ({ rank }: { rank: number }) => {
       </div>
     </div>
   );
-};
-
-const useDesktopGlobe = () => {
-  const [isDesktop, setIsDesktop] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(min-width: 981px)").matches;
-  });
-
-  useEffect(() => {
-    const query = window.matchMedia("(min-width: 981px)");
-    const update = () => setIsDesktop(query.matches);
-
-    update();
-    query.addEventListener("change", update);
-
-    return () => query.removeEventListener("change", update);
-  }, []);
-
-  return isDesktop;
 };
 
 const Leaderboard = () => {

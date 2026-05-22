@@ -6,7 +6,7 @@ import {
   COLLECTIONS,
 } from "../firestore";
 import { Event, CreateEventData } from "../types";
-import { query, where, orderBy } from "firebase/firestore";
+import { where, orderBy } from "firebase/firestore";
 
 /**
  * Create a new event
