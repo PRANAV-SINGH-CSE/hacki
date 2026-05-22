@@ -13,11 +13,7 @@
   min-height: 100vh;
   padding: 0 0 34px;
   overflow: clip;
-  background:
-    linear-gradient(180deg, rgba(1, 8, 17, 0.92), rgba(1, 9, 19, 0.96)),
-    url("../assets/leaderboard-bg.png");
-  background-size: auto, cover;
-  background-position: center;
+  background: transparent;
 }
 
 .leaderboard-page::before,
@@ -29,6 +25,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
   min-height: 100svh;
   padding: 132px clamp(38px, 5vw, 96px) 58px;
@@ -53,10 +50,7 @@
 }
 
 .leaderboard-event-intro::before {
-  z-index: -1;
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.82) 24%, rgba(0, 0, 0, 0.31) 54%, rgba(0, 0, 0, 0.34) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.36), transparent 24%, rgba(0, 0, 0, 0.66) 100%);
+  display: none;
 }
 
 .leaderboard-event-intro::after {
@@ -66,8 +60,12 @@
 .leaderboard-event-content {
   position: relative;
   z-index: 1;
-  width: min(960px, 62vw);
+  width: min(960px, 90vw);
   transform: translateY(18px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .event-meta-row {
@@ -121,7 +119,7 @@
 .event-title-line {
   width: min(520px, 100%);
   height: 3px;
-  margin: 25px 0 20px;
+  margin: 25px auto 20px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--lb-cyan), #6db9ff 55%, #c84cff);
   box-shadow: 0 0 12px rgba(0, 234, 255, 0.28);
@@ -137,6 +135,10 @@
 }
 
 .event-programs-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
   margin: 86px 0 18px;
   color: var(--lb-cyan);
   font-family: "Orbitron", sans-serif;
@@ -145,6 +147,26 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   text-shadow: 0 0 11px rgba(0, 234, 255, 0.65);
+}
+
+.event-programs-label::before,
+.event-programs-label::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: var(--lb-cyan);
+  box-shadow: 0 0 8px rgba(0, 234, 255, 0.6);
+  opacity: 0.4;
+  border-radius: 2px;
+}
+
+.event-programs-label::before {
+  background: linear-gradient(90deg, transparent, var(--lb-cyan));
+}
+
+.event-programs-label::after {
+  background: linear-gradient(270deg, transparent, var(--lb-cyan));
 }
 
 .event-programs {
@@ -166,11 +188,17 @@
   background: rgba(2, 14, 23, 0.68);
   box-shadow: inset 0 0 24px rgba(0, 234, 255, 0.04);
   backdrop-filter: blur(9px);
+  text-align: left;
 }
 
 .event-program-card svg {
   color: var(--lb-cyan);
   filter: drop-shadow(0 0 10px rgba(0, 234, 255, 0.48));
+}
+
+.event-program-violet {
+  border: 1px solid rgba(177, 77, 255, 0.36);
+  box-shadow: inset 0 0 24px rgba(177, 77, 255, 0.08);
 }
 
 .event-program-violet svg {
@@ -185,6 +213,20 @@
   font-weight: 900;
   line-height: 1.18;
   text-transform: uppercase;
+}
+
+.event-program-line {
+  width: 20px;
+  height: 2px;
+  margin: 4px 0 8px;
+  background: var(--lb-cyan);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(0, 234, 255, 0.6);
+}
+
+.event-program-violet .event-program-line {
+  background: #b14dff;
+  box-shadow: 0 0 6px rgba(177, 77, 255, 0.6);
 }
 
 .event-program-card p {
@@ -361,6 +403,20 @@
 
 .leaderboard-body {
   position: relative;
+  min-height: 710px;
+}
+
+.leaderboard-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 234, 255, 0.6);
+  font-family: "Orbitron", sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .leaderboard-row {
@@ -690,7 +746,6 @@
 
 .kavach-inspires {
   position: relative;
-  border-top: 40px solid #000;
   padding: 90px clamp(28px, 5vw, 96px) 100px;
   overflow: hidden;
   isolation: isolate;
@@ -707,13 +762,7 @@
 
 /* Dark overlay only — no blue/cyan tint */
 .kavach-inspires::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.68) 35%, rgba(0, 0, 0, 0.64) 65%, rgba(0, 0, 0, 0.88) 100%);
+  display: none;
 }
 
 .kavach-inspires::after {

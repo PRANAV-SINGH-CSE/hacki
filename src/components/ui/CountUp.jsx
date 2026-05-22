@@ -68,8 +68,8 @@ const CountUpMetrics = () => {
   const card = shouldReduceMotion.current ? reducedMotionVariants : cardVariants;
 
   return (
-    <section className="relative bg-[#050505] py-24">
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-black/20 to-transparent" />
+    <section className="relative bg-transparent py-24">
+      <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-white/5 to-transparent" />
       
       <div className="container relative z-10 mx-auto px-6">
         <motion.div

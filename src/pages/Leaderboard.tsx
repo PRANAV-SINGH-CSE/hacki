@@ -160,40 +160,12 @@ const Leaderboard = () => {
   const [rows, setRows] = useState<LeaderboardItem[]>([]);
   const [status, setStatus] = useState("");
   const [isError, setIsError] = useState(false);
-  const [isGlobeReady, setIsGlobeReady] = useState(false);
-  const shouldRenderGlobe = useDesktopGlobe();
-
-  useEffect(() => {
-    if (!shouldRenderGlobe) {
-      setIsGlobeReady(false);
-      return;
-    }
-
-    let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-    const triggerGlobe = () => {
-      timeoutId = setTimeout(() => {
-        setIsGlobeReady(true);
-      }, 500);
-    };
-
-    if (document.readyState === "complete") {
-      triggerGlobe();
-    } else {
-      window.addEventListener("load", triggerGlobe, { once: true });
-    }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      window.removeEventListener("load", triggerGlobe);
-    };
-  }, [shouldRenderGlobe]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (missingVars.length > 0) {
       setIsError(true);
+      setIsLoading(false);
       setStatus(`Missing Firebase env values: ${missingVars.join(", ")}`);
       return;
     }
@@ -206,6 +178,7 @@ const Leaderboard = () => {
       const unsubscribe = onValue(
         leaderboardRef,
         (snapshot) => {
+          setIsLoading(false);
           const value = snapshot.val();
           if (!value || typeof value !== "object") {
             setRows([]);
@@ -228,9 +201,9 @@ const Leaderboard = () => {
 
           setRows(parsed);
           setIsError(false);
-          // setStatus(`Loaded ${parsed.length} ranked participant(s).`);
         },
         (error) => {
+          setIsLoading(false);
           setIsError(true);
           setStatus(`Failed to load leaderboard: ${error.message}`);
         },
@@ -238,6 +211,7 @@ const Leaderboard = () => {
 
       return () => unsubscribe();
     } catch (error) {
+      setIsLoading(false);
       setIsError(true);
       setStatus(
         `Firebase initialization error: ${error instanceof Error ? error.message : "Unknown error"}`,
@@ -247,18 +221,37 @@ const Leaderboard = () => {
   }, []);
 
   const renderedRows = useMemo<LeaderboardItem[]>(() => {
+    if (isLoading) return [];
     if (rows.length > 0) return rows;
     return fallbackRows;
-  }, [rows]);
+  }, [rows, isLoading]);
+
+  const [bgLoaded, setBgLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = eventBackgroundImage;
+    img.onload = () => setBgLoaded(true);
+  }, []);
 
   return (
     <section className="leaderboard-page">
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: -3,
+          backgroundColor: "#050505", // solid dark fallback
+          backgroundImage: bgLoaded ? `linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.08)), url("${eventBackgroundImage}")` : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          opacity: bgLoaded ? 1 : 0,
+          transition: "opacity 0.8s ease-in-out"
+        }}
+        aria-hidden="true"
+      />
       <div className="leaderboard-event-intro" aria-label="Cybersecurity Event Kavach 2.0 details">
-        <div
-          className="leaderboard-event-bg"
-          style={{ backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.08)), url("${eventBackgroundImage}")` }}
-          aria-hidden="true"
-        />
         <div className="leaderboard-event-content">
           <div className="event-meta-row">
             <span className="event-pill">Event</span>
@@ -267,9 +260,9 @@ const Leaderboard = () => {
           </div>
 
           <h1 className="event-title">
-            <span>Cybersecurity</span>
+            <span>Cybersecurity Event</span>
             <span>
-              Event <strong>Kavach 2.0</strong>
+              <strong>Kavach 2.0</strong>
             </span>
           </h1>
 
@@ -289,6 +282,7 @@ const Leaderboard = () => {
                   <Icon size={40} strokeWidth={1.8} aria-hidden="true" />
                   <div>
                     <h2>{program.title}</h2>
+                    <div className="event-program-line" aria-hidden="true" />
                     <p>{program.detail}</p>
                   </div>
                 </div>
@@ -296,23 +290,10 @@ const Leaderboard = () => {
             })}
           </div>
         </div>
-
-        {shouldRenderGlobe && isGlobeReady ? (
-          <div className="event-github-globe" aria-hidden="true">
-            <Suspense fallback={null}>
-              <GithubGlobe className="event-github-globe-canvas" />
-            </Suspense>
-          </div>
-        ) : null}
       </div>
 
       {/* ── Kavach 2.0 — The Event That Inspires ── */}
       <div className="kavach-inspires" id="kavach-about">
-        <div
-          className="kavach-inspires-bg"
-          style={{ backgroundImage: `url("${process.env.PUBLIC_URL}/events/kavach2.0/background_page2.png")` }}
-          aria-hidden="true"
-        />
         <div className="kavach-inspires-glow" aria-hidden="true" />
         <div className="kavach-inspires-inner">
           <div className="kavach-inspires-header">
@@ -348,11 +329,6 @@ const Leaderboard = () => {
       <div 
         className="leaderboard-shell" 
         id="kavach-leaderboard"
-        style={{ 
-          backgroundImage: `linear-gradient(180deg, rgb(2, 2, 3), rgba(0, 0, 0, 0.3)), url("${process.env.PUBLIC_URL}/events/kavach2.0/background_page4.png")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center"
-        }}
       >
         <div className="leaderboard-hero">
           <div>
@@ -373,7 +349,12 @@ const Leaderboard = () => {
           </div>
 
           <div className="leaderboard-body">
-            {renderedRows.map((item, index) => {
+            {isLoading && (
+              <div className="leaderboard-loading">
+                <span>Loading Leaderboard...</span>
+              </div>
+            )}
+            {!isLoading && renderedRows.map((item, index) => {
               const rankNumber = Number(item.rank) || index + 1;
               const rankClass = rankNumber <= 3 ? `top-${rankNumber}` : "";
               const colorClass = rankColors[index] || "cyan";
