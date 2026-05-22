@@ -210,7 +210,7 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({ images, paused = 
                 src={image}
                 alt="Event moment"
                 className="event-carousel-image h-full w-full rounded-lg object-cover"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
                 draggable="false"
                 onContextMenu={(event) => event.preventDefault()}

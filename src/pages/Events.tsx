@@ -188,6 +188,8 @@ const Events = () => {
                     src={selectedImage}
                     alt="Selected event"
                     className="image-modal__img"
+                    loading="eager"
+                    fetchPriority="high"
                     onContextMenu={(event) => event.preventDefault()}
                     onTouchStart={(event) => event.preventDefault()}
                   />

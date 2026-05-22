@@ -140,7 +140,7 @@ const Header = () => {
               )}
             >
               <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden border border-white/10 group-hover:border-[#bd00ff]/50 transition-colors shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                <img src="/logo-icon.jpg" alt="Hackiware Logo" className="w-full h-full object-cover" />
+                <img src="/logo-icon.jpg" alt="Hackiware Logo" className="w-full h-full object-cover" fetchPriority="high" loading="eager" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent pointer-events-none" />
               </div>
               <span className="font-orbitron font-bold text-lg sm:text-xl tracking-wider text-white group-hover:text-[#bd00ff] transition-colors duration-300" 
@@ -279,7 +279,7 @@ const Header = () => {
 
               <div className="flex items-center gap-3 mb-12 transform scale-110">
                 <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-                  <img src="/logo-icon.jpg" alt="Hackiware Logo" className="w-full h-full object-cover" />
+                  <img src="/logo-icon.jpg" alt="Hackiware Logo" className="w-full h-full object-cover" fetchPriority="high" loading="eager" />
                 </div>
                 <span className="font-orbitron font-bold text-2xl tracking-wider text-white" style={{ textShadow: '0 0 15px rgba(189,0,255,0.6)' }}>
                   HACKIWARE

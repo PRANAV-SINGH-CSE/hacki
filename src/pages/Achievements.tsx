@@ -309,6 +309,8 @@ const Achievements = () => {
                 src={selectedImage}
                 alt="Selected achievement"
                 className="image-modal__img"
+                loading="eager"
+                fetchPriority="high"
                 onContextMenu={(event) => event.preventDefault()}
                 onTouchStart={(event) => event.preventDefault()}
               />

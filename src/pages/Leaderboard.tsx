@@ -355,7 +355,7 @@ const Leaderboard = () => {
                   <div className="leaderboard-cell name-cell" role="cell">
                     <div className="lb-avatar">
                       {item.imageUrl ? (
-                        <img src={item.imageUrl} alt={item.name || "Participant"} />
+                        <img src={item.imageUrl} alt={item.name || "Participant"} loading="lazy" />
                       ) : (
                         <span>{initial}</span>
                       )}

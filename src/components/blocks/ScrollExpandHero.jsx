@@ -53,6 +53,8 @@ const ScrollExpandHero = ({
                 src={bgImageSrc}
                 alt="Cyberpunk background"
                 className="h-full w-full scale-105 object-cover object-center"
+                fetchPriority="high"
+                loading="eager"
                 draggable={false}
               />
               <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/50 to-cyan-900/40 mix-blend-multiply" />
@@ -107,6 +109,8 @@ const ScrollExpandHero = ({
                       src={mediaSrc}
                       alt="Scroll expansion media"
                       className="h-full w-full object-cover"
+                      fetchPriority="high"
+                      loading="eager"
                       draggable={false}
                     />
                   )}
