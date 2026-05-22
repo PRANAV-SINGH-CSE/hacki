@@ -40,8 +40,8 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
       className={`infinite-marquee relative w-full overflow-hidden py-6 md:py-8 px-[2%] ${directionClass} ${pauseClass}`}
       style={{ ['--duration' as string]: `${speed}s` }}
     >
-      <div className="absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[#050505] to-transparent pointer-events-none" />
-      <div className="absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none" />
+      <div className="absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-black/50 to-transparent pointer-events-none" />
+      <div className="absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-black/50 to-transparent pointer-events-none" />
       <div className="infinite-marquee__track flex gap-4 md:gap-6">
         {duplicatedImages.map((image, index) => (
           <div key={index} className="flex-shrink-0">

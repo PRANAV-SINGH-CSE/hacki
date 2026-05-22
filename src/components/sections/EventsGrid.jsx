@@ -43,7 +43,7 @@ const events = [
 
 const EventsGrid = () => {
   return (
-    <section className="relative bg-[#050505] pb-12">
+    <section className="relative bg-transparent pb-12">
       <div className="container mx-auto px-6">
         <div className="mx-auto max-w-[90rem]">
           <div className="mb-6">

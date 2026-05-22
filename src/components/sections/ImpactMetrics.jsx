@@ -42,7 +42,7 @@ const ImpactMetrics = () => {
   ];
 
   return (
-    <section className="relative bg-[#050505] py-20 md:py-32 border-y border-white/5">
+    <section className="relative bg-transparent py-20 md:py-32 border-y border-white/5">
       <div className="container mx-auto px-6">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12">

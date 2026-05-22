@@ -68,15 +68,7 @@ const Hero = () => {
   const button = shouldReduceMotion.current ? reducedMotionVariants : buttonVariants;
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#000000] pb-0">
-      <div
-        className="absolute inset-0 z-0 bg-center bg-cover bg-no-repeat"
-        style={{
-          backgroundImage: `url("${process.env.PUBLIC_URL}/hero/background_image_1.png")`,
-        }}
-        aria-hidden="true"
-      />
-
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-transparent pb-0">
       {/* NOISE OVERLAY */}
       <div 
         className="absolute inset-0 z-[2] pointer-events-none opacity-[0.04] mix-blend-overlay"

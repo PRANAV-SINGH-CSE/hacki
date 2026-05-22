@@ -42,8 +42,8 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
       style={{ ['--duration' as string]: `${speed}s` }}
     >
       {/* Gradient overlays for fade effect */}
-      <div className="absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[#050505] to-transparent pointer-events-none" />
-      <div className="absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none" />
+      <div className="absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-black/50 to-transparent pointer-events-none" />
+      <div className="absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-black/50 to-transparent pointer-events-none" />
       
       <div
         className="infinite-marquee__track flex gap-4 md:gap-6"

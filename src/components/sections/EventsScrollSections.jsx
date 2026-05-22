@@ -66,7 +66,7 @@ const EventsScrollSections = ({ paused = false, onImageClick }) => {
   ];
 
   return (
-    <section className="relative bg-[#050505] py-10">
+    <section className="relative bg-transparent py-10">
       <div className="container mx-auto px-4 md:px-6">
         <div className="space-y-12">
           {events.map((event, idx) => (

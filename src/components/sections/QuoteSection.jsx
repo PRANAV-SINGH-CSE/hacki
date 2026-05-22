@@ -32,7 +32,7 @@ const QuoteSection = () => {
   const paragraph = shouldReduceMotion.current ? reducedMotionVariants : paragraphVariants;
 
   return (
-    <section className="relative bg-gradient-to-b from-[#050505] via-[#0a0a0f] to-[#050505] py-20 md:py-32">
+    <section className="relative bg-transparent py-20 md:py-32">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,224,255,0.08),_transparent_70%)]" />
 
       <div className="container relative z-10 mx-auto px-6">

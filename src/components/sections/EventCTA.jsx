@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const EventCTA = () => {
   return (
-    <section className="relative bg-[#050505] py-12 md:py-16">
+    <section className="relative bg-transparent py-12 md:py-16">
       <div className="container mx-auto px-6">
         <div className="mx-auto max-w-4xl text-center">
           <motion.div

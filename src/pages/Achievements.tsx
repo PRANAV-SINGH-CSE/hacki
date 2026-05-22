@@ -163,8 +163,24 @@ const Achievements = () => {
     ? reducedMotionSectionVariants
     : rightSectionVariants;
 
+    useEffect(() => {
+      // Mount background image natively to DOM body
+      // @ts-ignore
+      document.body.style.backgroundImage = `url("${process.env.PUBLIC_URL}/achievements/background/bacground_image.png")`;
+      document.body.style.backgroundAttachment = "fixed";
+      document.body.style.backgroundPosition = "center";
+      document.body.style.backgroundSize = "cover";
+
+      return () => {
+        document.body.style.backgroundImage = "";
+        document.body.style.backgroundAttachment = "";
+        document.body.style.backgroundPosition = "";
+        document.body.style.backgroundSize = "";
+      };
+    }, []);
+
   return (
-    <section className="relative min-h-screen bg-[#050505] pt-32 pb-24">
+    <section className="relative min-h-screen bg-transparent pt-32 pb-24">
       <div className="container mx-auto px-6">
 
         <div className="mx-auto max-w-4xl">
@@ -200,10 +216,7 @@ const Achievements = () => {
           <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen px-6">
             <SpatialProductShowcase />
           </div>
-        </div>
-
-        <div className="mx-auto max-w-4xl">
-          <CountUpMetrics />
+        {/* Header Elements Left / Right removed for brevity if present */}
         </div>
 
         <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen my-8 md:my-6">
