@@ -160,7 +160,7 @@ const App = () => {
     <AuthProvider>
       <BrowserRouter>
         <SmoothScroll>
-          <div className="min-h-screen bg-[#050505] font-inter text-white">
+          <div className="min-h-screen bg-transparent font-inter text-white">
             {isLoading ? <PageLoader isExiting={isExiting} /> : null}
             <div className="flex min-h-screen flex-col">
               <Header />

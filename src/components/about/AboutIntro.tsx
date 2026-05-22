@@ -6,7 +6,7 @@ export const AboutIntro = () => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-100px" }}
     transition={{ duration: 0.6, ease: "easeOut" }}
-    className="bg-black py-24 px-6"
+    className="bg-transparent py-24 px-6"
   >
     <div className="max-w-3xl mx-auto text-center">
       <p className="text-lg text-white/80 leading-relaxed mb-4">

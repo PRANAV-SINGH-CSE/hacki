@@ -91,7 +91,7 @@ const Footer = () => {
       variants={footerVariant}
       initial="hidden"
       animate="visible"
-      className="border-t border-white/10 bg-[#050506] py-12 text-white"
+      className="border-t border-white/10 bg-black/30 backdrop-blur-md py-12 text-white mt-auto relative z-[50]"
     >
     <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 md:flex-row md:items-start md:justify-between">
       <div>

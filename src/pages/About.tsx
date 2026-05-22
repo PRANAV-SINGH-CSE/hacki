@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import { MissionVisionValues } from '../components/about/MissionVisionValues';
 import { Timeline } from '../components/ui/timeline';
 
 // --- VISUAL STYLE: ABSTRACT CIRCUIT ---
 const CircuitPattern = () => (
-  <svg className="w-full h-full opacity-[0.2]" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg className="w-full h-full opacity-[0.2]" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ willChange: 'opacity' }}>
     <motion.g
       initial={{ opacity: 0.5 }}
       animate={{ opacity: [0.5, 0.8, 0.5] }}
       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      style={{ willChange: 'opacity' }}
     >
       <path d="M0 100 H800" stroke="url(#circuit_gradient)" strokeWidth="0.5" strokeDasharray="10 20" />
       <path d="M0 300 H800" stroke="url(#circuit_gradient)" strokeWidth="0.5" strokeDasharray="5 15" />
@@ -109,7 +111,7 @@ const team = [
 ];
 
 const Leadership = () => (
-  <section className="bg-black py-20">
+  <section className="bg-transparent py-20">
     <div className="container mx-auto px-6">
       <div className="max-w-5xl mx-auto text-center mb-8">
         <h3 className="text-2xl font-bold text-white mb-2">Built by Visionaries</h3>
@@ -118,7 +120,7 @@ const Leadership = () => (
 
       <div className="grid gap-12 md:grid-cols-2 max-w-4xl mx-auto">
         {team.map((member) => (
-          <div key={member.name} className="rounded-2xl overflow-hidden border border-white/8 bg-[#050505] shadow-md w-full">
+          <div key={member.name} className="rounded-2xl overflow-hidden border border-white/8 bg-black/30 shadow-md w-full backdrop-blur-sm">
             <div
               className="h-80 md:h-[420px] bg-black/20 bg-center bg-cover"
               style={{
@@ -132,7 +134,7 @@ const Leadership = () => (
               )}
             </div>
 
-            <div className="px-6 py-6 flex items-center justify-between bg-[#050505]">
+            <div className="px-6 py-6 flex items-center justify-between bg-black/20">
               <div>
                 <div className="text-xl text-white font-semibold">{member.name}</div>
                 <div className="text-sm text-white/60 tracking-wider mt-1">{member.role.toUpperCase()}</div>
@@ -162,7 +164,7 @@ const Leadership = () => (
 );
 
 const Closing = () => (
-  <section className="bg-[#050505] py-20">
+  <section className="bg-transparent py-20">
     <div className="container mx-auto px-6 text-center max-w-4xl">
       <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Join the mission</h3>
       <p className="text-white/70 mb-6">If you're an institution, industry partner, or an aspiring student, reach out to collaborate on curriculum, events, or research. We welcome partnerships that prioritize practical impact and measurable learning outcomes.</p>
@@ -171,33 +173,43 @@ const Closing = () => (
 );
 
 const About = () => {
+  useEffect(() => {
+    // Mount background image natively to DOM body to bypass framer-motion fixed position bugs
+    // @ts-ignore
+    document.body.style.backgroundImage = `url("${process.env.PUBLIC_URL}/about us/background_image_1.png")`;
+    document.body.style.backgroundAttachment = "fixed";
+    document.body.style.backgroundPosition = "center";
+    document.body.style.backgroundSize = "cover";
+
+    return () => {
+      document.body.style.backgroundImage = "";
+      document.body.style.backgroundAttachment = "";
+    };
+  }, []);
+
   return (
-    <>
-      {/* HERO SECTION */}
-      <section className="relative h-screen min-h-screen overflow-hidden bg-[#000000]">
-        <div
-          className="absolute inset-0 z-0 bg-center bg-cover bg-no-repeat"
-          style={{
-            backgroundImage: `url("${process.env.PUBLIC_URL}/about us/background_image_1.png")`,
-          }}
-          aria-hidden="true"
-        />
+    <div className="relative min-h-screen bg-transparent">
+      {/* BACKGROUND ELEMENTS - Fixed to viewport to prevent massive tall repaints causing lag */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="sticky top-0 h-screen w-full">
+          {/* NOISE OVERLAY - Now fixed to Viewport so it doesn't try to render 5000px of Noise */}
+          <div 
+            className="absolute inset-0 z-[1] opacity-[0.04] mix-blend-overlay pointer-events-none"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+            }}
+          />
 
-        {/* NOISE OVERLAY */}
-        <div 
-          className="absolute inset-0 z-[1] pointer-events-none opacity-[0.04] mix-blend-overlay"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-          }}
-        />
-
-        {/* BACKGROUND ANIMATION */}
-        <div className="absolute inset-0 z-[2] pointer-events-none">
-          <CircuitPattern />
+          {/* BACKGROUND ANIMATION */}
+          <div className="absolute inset-0 z-[2]">
+            <CircuitPattern />
+          </div>
         </div>
+      </div>
 
-        {/* Text overlay */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center">
+      <div className="relative z-10 flex flex-col">
+        {/* HERO SECTION */}
+        <section className="relative h-screen min-h-screen overflow-hidden bg-transparent flex items-center justify-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -218,17 +230,15 @@ const About = () => {
               defenders.
             </p>
           </motion.div>
-        </div>
+        </section>
 
-        {/* FIXED: Removed the fade mask div that was causing the black bar */}
-      </section>
-
-      {/* CONTENT */}
-      <MissionVisionValues />
-      <Timeline data={timelineData} />
-      <Leadership />
-      <Closing />
-    </>
+        {/* CONTENT */}
+        <MissionVisionValues />
+        <Timeline data={timelineData} />
+        <Leadership />
+        <Closing />
+      </div>
+    </div>
   );
 };
 

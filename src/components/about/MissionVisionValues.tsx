@@ -2,7 +2,7 @@ import { Shield, Brain, Infinity } from "lucide-react";
 import { ValueCard } from "./ValueCard";
 
 export const MissionVisionValues = () => (
-  <section className="bg-black py-28 px-6">
+  <section className="bg-transparent py-28 px-6">
     <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12">
         <ValueCard
           icon={<Shield />}

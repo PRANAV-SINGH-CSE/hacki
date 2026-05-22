@@ -15,13 +15,14 @@ const prefersReducedMotion = () => {
 };
 
 const NetworkMesh = () => (
-  <svg className="w-full h-full opacity-80 drop-shadow-[0_0_10px_rgba(0,243,255,0.4)]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <motion.g
-      initial={{ rotate: 0 }}
-      animate={{ rotate: 360 }}
-      transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-      style={{ transformOrigin: "center" }}
-    >
+  <motion.div
+    className="h-full w-full"
+    initial={{ rotate: 0 }}
+    animate={{ rotate: 360 }}
+    transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+    style={{ transformOrigin: "50% 50%" }}
+  >
+    <svg className="w-full h-full opacity-80 drop-shadow-[0_0_10px_rgba(0,243,255,0.4)]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="200" cy="200" r="150" stroke="url(#paint0_linear)" strokeWidth="0.8" strokeDasharray="4 4" />
       <circle cx="200" cy="200" r="100" stroke="url(#paint0_linear)" strokeWidth="0.8" />
       <path d="M200 50 L200 350" stroke="rgba(0, 243, 255, 0.4)" strokeWidth="0.8" />
@@ -36,15 +37,15 @@ const NetworkMesh = () => (
       {/* Connecting Arcs */}
       <path d="M200 50 Q 280 80 306 150" stroke="rgba(0, 243, 255, 0.3)" strokeWidth="0.8" fill="none" />
       <path d="M200 350 Q 120 320 94 250" stroke="rgba(0, 243, 255, 0.3)" strokeWidth="0.8" fill="none" />
-    </motion.g>
-    <defs>
-      <linearGradient id="paint0_linear" x1="50" y1="50" x2="350" y2="350" gradientUnits="userSpaceOnUse">
-        <stop stopColor="rgba(0, 243, 255, 0)" />
-        <stop offset="0.5" stopColor="rgba(0, 243, 255, 0.7)" />
-        <stop offset="1" stopColor="rgba(0, 243, 255, 0)" />
-      </linearGradient>
-    </defs>
-  </svg>
+      <defs>
+        <linearGradient id="paint0_linear" x1="50" y1="50" x2="350" y2="350" gradientUnits="userSpaceOnUse">
+          <stop stopColor="rgba(0, 243, 255, 0)" />
+          <stop offset="0.5" stopColor="rgba(0, 243, 255, 0.7)" />
+          <stop offset="1" stopColor="rgba(0, 243, 255, 0)" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </motion.div>
 );
 
 const Hero = () => {
