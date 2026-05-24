@@ -205,31 +205,10 @@ const Leaderboard = () => {
     return fallbackRows;
   }, [rows, isLoading]);
 
-  const [bgLoaded, setBgLoaded] = useState(false);
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = eventBackgroundImage;
-    img.onload = () => setBgLoaded(true);
-  }, []);
 
   return (
     <section className="leaderboard-page">
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: -3,
-          backgroundColor: "#050505", // solid dark fallback
-          backgroundImage: bgLoaded ? `linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.08)), url("${eventBackgroundImage}")` : "none",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: bgLoaded ? 1 : 0,
-          transition: "opacity 0.8s ease-in-out"
-        }}
-        aria-hidden="true"
-      />
+
       <div className="leaderboard-event-intro" aria-label="Cybersecurity Event Kavach 2.0 details">
         <div className="leaderboard-event-content">
           <div className="event-meta-row">

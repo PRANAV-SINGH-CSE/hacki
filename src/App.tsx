@@ -6,6 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import PageWrapper from "./components/shared/PageWrapper";
+import RouteLoader from "./components/shared/RouteLoader";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -219,11 +220,6 @@ const PageLoader = ({ isExiting }: { isExiting: boolean }) => (
   </div>
 );
 
-const RouteLoader = () => (
-  <div className="route-loader" role="status" aria-label="Loading page">
-    <span className="route-loader__ring" />
-  </div>
-);
 
 const SmoothScroll = ({ children }: { children: ReactNode }) => {
   const location = useLocation();

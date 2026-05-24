@@ -1,0 +1,122 @@
+*** Begin Patch
+*** Update File: d:\img_cache\Hackiware_old\src\pages\Leaderboard.css
+@@
+   .leaderboard-event-content {
+     width: min(100%, 720px);
+     transform: translateY(-18px);
++    margin: 0 auto;
+   }
+ 
+   .event-title {
+     font-size: clamp(48px, 9vw, 78px);
++    text-align: center;
+   }
+ 
+   .event-programs {
+     grid-template-columns: 1fr;
+     max-width: 410px;
+     gap: 10px;
++    margin: 0 auto;
+   }
+ 
+   .event-program-card {
+@@
+     overflow-x: auto;
+     padding-bottom: 8px;
+   }
+ }
++
++@media (max-width: 700px) {
++  .leaderboard-shell {
++    padding: 32px 14px 28px;
++    width: calc(100% - 8px);
++    margin: 0 auto;
++  }
++
++  .leaderboard-hero {
++    flex-direction: column;
++    align-items: center;
++    text-align: center;
++    gap: 8px;
++    margin: 0 8px 18px;
++  }
++
++  .leaderboard-head {
++    display: none;
++  }
++
++  .leaderboard-body {
++    min-height: auto;
++  }
++
++  .leaderboard-board {
++    overflow-x: visible;
++  }
++
++  .leaderboard-row {
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++    justify-content: center;
++    padding: 24px 14px;
++    margin-bottom: 16px;
++    min-height: unset;
++    border-radius: 12px;
++    clip-path: none;
++    text-align: center;
++    background: linear-gradient(180deg, rgba(0, 43, 55, 0.4), rgba(4, 17, 28, 0.8));
++    border: 1px solid rgba(0, 234, 255, 0.15);
++  }
++  
++  .leaderboard-row::before {
++    clip-path: none;
++    border-radius: 12px;
++  }
++
++  .leaderboard-cell {
++    padding: 6px 0;
++    justify-content: center;
++  }
++
++  .rank-cell {
++    padding: 0;
++    margin-bottom: 12px;
++  }
++
++  .name-cell {
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++    gap: 12px;
++    padding: 0;
++    margin-bottom: 12px;
++  }
++
++  .lb-avatar {
++    width: 60px;
++    height: 60px;
++    font-size: 26px;
++  }
++
++  .lb-name {
++    font-size: 22px;
++    white-space: normal;
++    overflow: visible;
++  }
++
++  .metric-cell {
++    font-size: 18px;
++    color: rgba(217, 226, 237, 0.92);
++  }
++
++  .score-cell {
++    font-size: 28px;
++    margin-top: 12px;
++  }
++
++  .leaderboard-row > .leaderboard-cell:nth-child(4),
++  .leaderboard-row > .leaderboard-cell:nth-child(5) {
++    display: none;
++  }
++}
+*** End Patch

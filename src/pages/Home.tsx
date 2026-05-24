@@ -27,21 +27,6 @@ const Home = () => {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  useEffect(() => {
-    // Mount background image natively to DOM body
-    // @ts-ignore
-    document.body.style.backgroundImage = `url("${process.env.PUBLIC_URL}/hero/background_image_1.png")`;
-    document.body.style.backgroundAttachment = "fixed";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundSize = "cover";
-
-    return () => {
-      document.body.style.backgroundImage = "";
-      document.body.style.backgroundAttachment = "";
-      document.body.style.backgroundPosition = "";
-      document.body.style.backgroundSize = "";
-    };
-  }, []);
 
   const container = shouldReduceMotion.current
     ? reducedMotionContainerVariants

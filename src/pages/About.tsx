@@ -173,19 +173,6 @@ const Closing = () => (
 );
 
 const About = () => {
-  useEffect(() => {
-    // Mount background image natively to DOM body to bypass framer-motion fixed position bugs
-    // @ts-ignore
-    document.body.style.backgroundImage = `url("${process.env.PUBLIC_URL}/about us/background_image_1.png")`;
-    document.body.style.backgroundAttachment = "fixed";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundSize = "cover";
-
-    return () => {
-      document.body.style.backgroundImage = "";
-      document.body.style.backgroundAttachment = "";
-    };
-  }, []);
 
   return (
     <div className="relative min-h-screen bg-transparent">

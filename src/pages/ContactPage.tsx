@@ -37,18 +37,7 @@ const ContactPage = () => {
 
   return (
     <>
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: -3,
-          backgroundImage: `url("${process.env.PUBLIC_URL}/contact%20us/background.png")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat"
-        }}
-        aria-hidden="true"
-      />
+
       <section className="mx-auto max-w-6xl px-4 py-24 text-white relative z-10">
       <motion.div
         variants={leftVariant}
