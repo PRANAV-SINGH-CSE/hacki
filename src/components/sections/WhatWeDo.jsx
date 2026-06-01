@@ -1,7 +1,7 @@
 import { Briefcase, Users, Book } from 'lucide-react';
 
 const Feature = ({ icon, title, children }) => (
-  <div className="flex flex-col items-start gap-4 rounded-2xl border border-white/8 bg-white/2 p-6">
+  <div className="flex min-h-[330px] flex-col items-start gap-5 rounded-2xl border border-white/15 bg-white/5 p-8 shadow-[0_18px_55px_rgba(0,0,0,0.22)] backdrop-blur-2xl">
     <div className="inline-flex items-center justify-center rounded-md bg-cyan-400/10 p-3 text-cyan-300">
       {icon}
     </div>
@@ -19,7 +19,7 @@ const WhatWeDo = () => {
           <p className="text-white/70">Hands-on training, national events, and a platform built for learning.</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="mx-auto grid max-w-[76rem] gap-7 md:grid-cols-3">
           <Feature icon={<Briefcase />} title="Hands-On Cybersecurity">
             Practical labs, simulations, and CTF-style challenges that teach applied defensive and offensive skills.
           </Feature>

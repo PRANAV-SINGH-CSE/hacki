@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   createPageTransition,
@@ -8,7 +8,6 @@ import {
   reducedMotionConfig,
 } from '../../lib/routeAnimations';
 import { routeBackgrounds } from '../../lib/routeBackgrounds';
-import RouteLoader from './RouteLoader';
 
 const prefersReducedMotion = () => {
   if (typeof window === 'undefined') return false;
@@ -18,33 +17,8 @@ const prefersReducedMotion = () => {
 const PageWrapper = ({ children, direction = 1 }) => {
   const shouldReduceMotion = useRef(prefersReducedMotion());
   const location = useLocation();
-  const [bgLoaded, setBgLoaded] = useState(false);
-  const [currentBg, setCurrentBg] = useState(null);
-
   const bgPath = routeBackgrounds[location.pathname] || null;
-
-  useEffect(() => {
-    if (!bgPath) {
-      setCurrentBg(null);
-      setBgLoaded(true);
-      return;
-    }
-
-    setBgLoaded(false);
-    const fullUrl = `${process.env.PUBLIC_URL || ''}${bgPath}`;
-    
-    const img = new Image();
-    img.src = fullUrl;
-    img.onload = () => {
-      setCurrentBg(fullUrl);
-      setBgLoaded(true);
-    };
-    img.onerror = () => {
-      console.warn("Failed to load background image:", fullUrl);
-      setCurrentBg(null);
-      setBgLoaded(true);
-    };
-  }, [bgPath]);
+  const currentBg = bgPath ? `${process.env.PUBLIC_URL || ''}${bgPath}` : null;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -62,10 +36,6 @@ const PageWrapper = ({ children, direction = 1 }) => {
   const transition = shouldReduceMotion.current
     ? reducedMotionConfig
     : pageTransitionConfig;
-
-  if (!bgLoaded) {
-    return <RouteLoader />;
-  }
 
   return (
     <>

@@ -135,6 +135,35 @@ const RankBadge = ({ rank }: { rank: number }) => {
   );
 };
 
+const LeaderboardRowsPreloader = () => (
+  <div className="leaderboard-rows-preloader" role="status" aria-live="polite" aria-label="Loading leaderboard">
+    {Array.from({ length: 10 }, (_, index) => (
+      <div className={`leaderboard-row leaderboard-skeleton-row${index === 0 ? " top-1" : ""}`} key={index}>
+        <div className="leaderboard-cell rank-cell">
+          <span className="leaderboard-skeleton leaderboard-skeleton-rank" />
+        </div>
+        <div className="leaderboard-cell name-cell">
+          <span className="leaderboard-skeleton leaderboard-skeleton-avatar" />
+          <span className="leaderboard-skeleton leaderboard-skeleton-crown" />
+          <span className="leaderboard-skeleton leaderboard-skeleton-name" />
+        </div>
+        <div className="leaderboard-cell metric-cell">
+          <span className="leaderboard-skeleton leaderboard-skeleton-metric" />
+        </div>
+        <div className="leaderboard-cell metric-cell">
+          <span className="leaderboard-skeleton leaderboard-skeleton-metric" />
+        </div>
+        <div className="leaderboard-cell metric-cell">
+          <span className="leaderboard-skeleton leaderboard-skeleton-metric" />
+        </div>
+        <div className="leaderboard-cell score-cell">
+          <span className="leaderboard-skeleton leaderboard-skeleton-score" />
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
 const Leaderboard = () => {
   const [rows, setRows] = useState<LeaderboardItem[]>([]);
   const [status, setStatus] = useState("");
@@ -204,7 +233,6 @@ const Leaderboard = () => {
     if (rows.length > 0) return rows;
     return fallbackRows;
   }, [rows, isLoading]);
-
 
   return (
     <section className="leaderboard-page">
@@ -307,12 +335,8 @@ const Leaderboard = () => {
           </div>
 
           <div className="leaderboard-body">
-            {isLoading && (
-              <div className="leaderboard-loading">
-                <span>Loading Leaderboard...</span>
-              </div>
-            )}
-            {!isLoading && renderedRows.map((item, index) => {
+            {isLoading ? <LeaderboardRowsPreloader /> : null}
+            {renderedRows.map((item, index) => {
               const rankNumber = Number(item.rank) || index + 1;
               const rankClass = rankNumber <= 3 ? `top-${rankNumber}` : "";
               const colorClass = rankColors[index] || "cyan";

@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { Suspense, lazy, useRef, useEffect, useState, type ReactNode } from "react";
+import { Suspense, lazy, useRef, useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
 import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import PageWrapper from "./components/shared/PageWrapper";
 import RouteLoader from "./components/shared/RouteLoader";
+import { prefetchPrimaryRoutes } from "./lib/routePrefetch";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -124,36 +125,21 @@ const AnimatedRoutes = () => {
 };
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isExiting, setIsExiting] = useState(false);
-
   useEffect(() => {
-    const minDurationMs = 650;
-    const exitDurationMs = 420;
-    const start = performance.now();
-    let timeoutId = 0;
+    const connection = (navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string };
+    }).connection;
+    const isConstrained = connection?.saveData || connection?.effectiveType?.includes("2g");
+    if (isConstrained) return;
 
-    const startExit = () => {
-      setIsExiting(true);
-      timeoutId = window.setTimeout(() => setIsLoading(false), exitDurationMs);
-    };
+    const idleCallback = window.requestIdleCallback?.(() => prefetchPrimaryRoutes(), {
+      timeout: 2500,
+    });
+    const timeoutId = idleCallback ? undefined : window.setTimeout(prefetchPrimaryRoutes, 1800);
 
-    const finish = () => {
-      const elapsed = performance.now() - start;
-      const remaining = Math.max(minDurationMs - elapsed, 0);
-      timeoutId = window.setTimeout(startExit, remaining);
-    };
-
-    if (document.readyState === "complete") {
-      finish();
-      return undefined;
-    }
-
-    const handleLoad = () => finish();
-    window.addEventListener("load", handleLoad);
     return () => {
-      window.removeEventListener("load", handleLoad);
-      window.clearTimeout(timeoutId);
+      if (idleCallback) window.cancelIdleCallback?.(idleCallback);
+      if (timeoutId) window.clearTimeout(timeoutId);
     };
   }, []);
 
@@ -162,7 +148,6 @@ const App = () => {
       <BrowserRouter>
         <SmoothScroll>
           <div className="min-h-screen bg-transparent font-inter text-white">
-            {isLoading ? <PageLoader isExiting={isExiting} /> : null}
             <div className="flex min-h-screen flex-col">
               <Header />
               <main className="flex-1">
@@ -176,49 +161,6 @@ const App = () => {
     </AuthProvider>
   );
 };
-
-const PageLoader = ({ isExiting }: { isExiting: boolean }) => (
-  <div className={`page-loader${isExiting ? " is-exiting" : ""}`} aria-hidden="true">
-    <div className="page-loader__frame">
-      <div className="page-loader__nav">
-        <div className="page-loader__brand">
-          <div className="skeleton skeleton-circle" />
-          <div className="skeleton skeleton-wordmark" />
-        </div>
-        <div className="page-loader__nav-items">
-          <div className="skeleton skeleton-pill" />
-          <div className="skeleton skeleton-pill" />
-          <div className="skeleton skeleton-pill" />
-          <div className="skeleton skeleton-pill" />
-          <div className="skeleton skeleton-pill" />
-        </div>
-      </div>
-      <div className="page-loader__hero">
-        <div className="page-loader__hero-left">
-          <div className="skeleton skeleton-badge" />
-          <div className="skeleton skeleton-title" />
-          <div className="skeleton skeleton-subtitle" />
-          <div className="page-loader__text-lines">
-            <div className="skeleton skeleton-line" />
-            <div className="skeleton skeleton-line" />
-            <div className="skeleton skeleton-line is-short" />
-          </div>
-          <div className="page-loader__actions">
-            <div className="skeleton skeleton-button" />
-            <div className="skeleton skeleton-button is-ghost" />
-          </div>
-        </div>
-        <div className="page-loader__hero-right">
-          <div className="page-loader__radar">
-            <div className="skeleton skeleton-ring" />
-            <div className="skeleton skeleton-ring is-inner" />
-            <div className="skeleton skeleton-dot" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 
 const SmoothScroll = ({ children }: { children: ReactNode }) => {
@@ -271,4 +213,3 @@ const SmoothScroll = ({ children }: { children: ReactNode }) => {
 };
 
 export default App;
-

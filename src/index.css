@@ -139,7 +139,7 @@ body {
   will-change: transform;
 }
 
-.infinite-marquee:hover .infinite-marquee__track {
+.infinite-marquee.is-hover-paused:hover .infinite-marquee__track {
   animation-play-state: paused;
 }
 

@@ -17,3 +17,6 @@ root.render(
   </React.StrictMode>
 );
 
+if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+  void navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/sw.js`);
+}

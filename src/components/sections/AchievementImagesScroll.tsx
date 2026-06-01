@@ -5,6 +5,7 @@ interface AchievementImagesScrollProps {
   speed?: number;
   direction?: 'left' | 'right';
   paused?: boolean;
+  pauseOnHover?: boolean;
   onImageClick?: (image: string) => void;
 }
 
@@ -13,10 +14,12 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
   speed = 90,
   direction = 'left',
   paused = false,
+  pauseOnHover = true,
   onImageClick,
 }) => {
   const duplicatedImages = [...images, ...images];
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
+  const hoverPauseClass = pauseOnHover ? 'is-hover-paused' : '';
   const pauseClass = paused ? 'is-paused' : '';
   const longPressTimerRef = useRef<number | null>(null);
   const touchMovedRef = useRef(false);
@@ -37,7 +40,7 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
 
   return (
     <div
-      className={`infinite-marquee relative w-full overflow-hidden py-6 md:py-8 px-[2%] ${directionClass} ${pauseClass}`}
+      className={`infinite-marquee relative w-full overflow-hidden py-6 md:py-8 px-[2%] ${directionClass} ${pauseClass} ${hoverPauseClass}`}
       style={{ ['--duration' as string]: `${speed}s` }}
     >
       <div className="absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-black/50 to-transparent pointer-events-none" />

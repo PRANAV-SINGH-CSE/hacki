@@ -10,6 +10,7 @@ import { Menu, X } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
 import { getUserByUid } from '../../firebase/services/users';
+import { prefetchRoute } from '../../lib/routePrefetch';
 
 const navLinks = [
   { label: 'HOME', path: '/' },
@@ -201,7 +202,11 @@ const Header = () => {
                     key={link.path}
                     to={link.path}
                     ref={(el) => (itemRefs.current[index] = el)}
-                    onMouseEnter={(e) => handleItemHover(index, e)}
+                    onMouseEnter={(e) => {
+                      prefetchRoute(link.path);
+                      handleItemHover(index, e);
+                    }}
+                    onFocus={() => prefetchRoute(link.path)}
                     className="relative z-10 px-6 py-2 block"
                   >
                     <motion.div
@@ -298,6 +303,7 @@ const Header = () => {
                     <Link
                       to={link.path}
                       onClick={() => setIsMobileMenuOpen(false)}
+                      onTouchStart={() => prefetchRoute(link.path)}
                       className={cn(
                         "block py-4 px-6 rounded-xl text-lg font-rajdhani font-bold uppercase tracking-widest transition-all duration-300 relative overflow-hidden group",
                         isActive(link.path)

@@ -5,6 +5,7 @@ interface LetterRecommendationScrollProps {
   speed?: number;
   direction?: 'left' | 'right';
   paused?: boolean;
+  pauseOnHover?: boolean;
   onImageClick?: (image: string) => void;
 }
 
@@ -13,11 +14,13 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
   speed = 90,
   direction = 'left',
   paused = false,
+  pauseOnHover = true,
   onImageClick,
 }) => {
   // Duplicate images for seamless infinite scroll
   const duplicatedImages = [...images, ...images];
   const directionClass = direction === 'right' ? 'infinite-marquee--reverse' : '';
+  const hoverPauseClass = pauseOnHover ? 'is-hover-paused' : '';
   const pauseClass = paused ? 'is-paused' : '';
   const longPressTimerRef = useRef<number | null>(null);
   const touchMovedRef = useRef(false);
@@ -38,7 +41,7 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
 
   return (
     <div 
-      className={`infinite-marquee relative w-full overflow-hidden py-6 md:py-8 px-[2%] ${directionClass} ${pauseClass}`}
+      className={`infinite-marquee relative w-full overflow-hidden py-6 md:py-8 px-[2%] ${directionClass} ${pauseClass} ${hoverPauseClass}`}
       style={{ ['--duration' as string]: `${speed}s` }}
     >
       {/* Gradient overlays for fade effect */}

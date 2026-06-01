@@ -242,6 +242,7 @@ const Achievements = () => {
             speed={25}
             direction="left"
             paused={isModalOpen}
+            pauseOnHover={false}
             onImageClick={openModal}
           />
         </div>
@@ -266,6 +267,7 @@ const Achievements = () => {
             speed={40}
             direction="left"
             paused={isModalOpen}
+            pauseOnHover={false}
             onImageClick={openModal}
           />
         </div>

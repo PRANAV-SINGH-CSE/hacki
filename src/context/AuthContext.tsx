@@ -202,11 +202,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     logout,
   };
 
-  // Prevent UI flicker by not rendering children until auth state is determined
-  if (loading) {
-    return null;
-  }
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
