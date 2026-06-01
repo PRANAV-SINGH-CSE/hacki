@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import SmoothImage from '../shared/SmoothImage';
 
 interface LetterRecommendationScrollProps {
   images: string[];
@@ -175,7 +176,7 @@ const LetterRecommendationScroll: React.FC<LetterRecommendationScrollProps> = ({
               }}
               aria-label={`Open recommendation letter ${index + 1}`}
             >
-              <img
+              <SmoothImage
                 src={image}
                 alt={`Letter of Recommendation ${index + 1}`}
                 className="h-full w-full object-cover"

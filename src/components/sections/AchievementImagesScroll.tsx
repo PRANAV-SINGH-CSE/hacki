@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import SmoothImage from '../shared/SmoothImage';
 
 interface AchievementImagesScrollProps {
   images: string[];
@@ -167,7 +168,7 @@ const AchievementImagesScroll: React.FC<AchievementImagesScrollProps> = ({
               }}
               aria-label={`Open certificate ${index + 1}`}
             >
-              <img
+              <SmoothImage
                 src={image}
                 alt={`Certificate ${index + 1}`}
                 className="h-full w-full object-cover"

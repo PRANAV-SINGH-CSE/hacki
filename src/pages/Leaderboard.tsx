@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getApps, initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref } from "firebase/database";
 import { Crosshair, Crown, Globe, Shield, Swords, Target, Users } from "lucide-react";
+import SmoothImage from "../components/shared/SmoothImage";
 import "./Leaderboard.css";
 
 type LeaderboardItem = {
@@ -358,7 +359,7 @@ const Leaderboard = () => {
                   <div className="leaderboard-cell name-cell" role="cell">
                     <div className="lb-avatar">
                       {item.imageUrl ? (
-                        <img src={item.imageUrl} alt={item.name || "Participant"} loading="lazy" />
+                        <SmoothImage src={item.imageUrl} alt={item.name || "Participant"} loading="lazy" />
                       ) : (
                         <span>{initial}</span>
                       )}

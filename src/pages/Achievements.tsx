@@ -9,6 +9,7 @@ import LogoMarquee from "../components/sections/LogoMarquee";
 import AchievementImagesScroll from "../components/sections/AchievementImagesScroll";
 import LetterRecommendationScroll from "../components/sections/LetterRecommendationScroll";
 import { MissionVisionValues } from "../components/about/MissionVisionValues";
+import SmoothImage from "../components/shared/SmoothImage";
 import {
   containerVariants,
   headingVariants,
@@ -292,7 +293,7 @@ const Achievements = () => {
               ×
             </button>
             {selectedImage ? (
-              <img
+              <SmoothImage
                 src={selectedImage}
                 alt="Selected achievement"
                 className="image-modal__img"

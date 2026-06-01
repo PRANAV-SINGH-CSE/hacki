@@ -1,4 +1,5 @@
 import React from 'react';
+import SmoothImage from '../shared/SmoothImage';
 
 interface LogoMarqueeProps {
   logos: string[];
@@ -27,7 +28,7 @@ const LogoMarquee: React.FC<LogoMarqueeProps> = ({
         {duplicatedLogos.map((logo, index) => (
           <div key={index} className="flex-shrink-0 flex items-center justify-center logo-container">
             <div className="relative h-20 w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 opacity-70">
-              <img
+              <SmoothImage
                 src={logo}
                 alt={`Partner logo ${index + 1}`}
                 className="h-full w-full object-cover rounded-2xl"

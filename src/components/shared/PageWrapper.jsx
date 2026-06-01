@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   createPageTransition,
@@ -17,8 +17,30 @@ const prefersReducedMotion = () => {
 const PageWrapper = ({ children, direction = 1 }) => {
   const shouldReduceMotion = useRef(prefersReducedMotion());
   const location = useLocation();
+  const [visibleBg, setVisibleBg] = useState(null);
   const bgPath = routeBackgrounds[location.pathname] || null;
   const currentBg = bgPath ? `${process.env.PUBLIC_URL || ''}${bgPath}` : null;
+
+  useEffect(() => {
+    if (!currentBg) {
+      setVisibleBg(null);
+      return;
+    }
+
+    let cancelled = false;
+    const image = new Image();
+    image.onload = () => {
+      if (!cancelled) setVisibleBg(currentBg);
+    };
+    image.onerror = () => {
+      if (!cancelled) setVisibleBg(null);
+    };
+    image.src = currentBg;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [currentBg]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -39,11 +61,12 @@ const PageWrapper = ({ children, direction = 1 }) => {
 
   return (
     <>
-      {currentBg && (
+      {visibleBg && (
         <motion.div
+          key={visibleBg}
           className="fixed inset-0 -z-10"
           style={{
-            backgroundImage: `url("${currentBg}")`,
+            backgroundImage: `url("${visibleBg}")`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',

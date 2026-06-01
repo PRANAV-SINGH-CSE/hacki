@@ -7,6 +7,7 @@ import EventsGrid from "../components/sections/EventsGrid";
 import ImpactMetrics from "../components/sections/ImpactMetrics";
 import FeaturedEventCard from "../components/sections/FeaturedEventCard";
 import EventCTA from "../components/sections/EventCTA";
+import SmoothImage from "../components/shared/SmoothImage";
 import {
   leftSectionVariants,
   rightSectionVariants,
@@ -169,7 +170,7 @@ const Events = () => {
                   ×
                 </button>
                 {selectedImage ? (
-                  <img
+                  <SmoothImage
                     src={selectedImage}
                     alt="Selected event"
                     className="image-modal__img"

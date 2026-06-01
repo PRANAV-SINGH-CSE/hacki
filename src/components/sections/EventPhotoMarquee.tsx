@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import SmoothImage from '../shared/SmoothImage';
 
 interface EventPhotoMarqueeProps {
   images: string[];
@@ -206,7 +207,7 @@ const EventPhotoMarquee: React.FC<EventPhotoMarqueeProps> = ({ images, paused = 
                 opacity: slot === 3 ? 0 : 1,
               }}
             >
-              <img
+              <SmoothImage
                 src={image}
                 alt="Event moment"
                 className="event-carousel-image h-full w-full rounded-lg object-cover"
