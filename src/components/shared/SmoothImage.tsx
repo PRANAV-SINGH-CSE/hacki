@@ -2,7 +2,7 @@ import { useCallback, useState, type ImgHTMLAttributes } from "react";
 
 type SmoothImageProps = ImgHTMLAttributes<HTMLImageElement>;
 
-const SmoothImage = ({ className = "", onLoad, ...props }: SmoothImageProps) => {
+const SmoothImage = ({ alt = "", className = "", onLoad, ...props }: SmoothImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const revealIfReady = useCallback((image: HTMLImageElement | null) => {
@@ -14,6 +14,7 @@ const SmoothImage = ({ className = "", onLoad, ...props }: SmoothImageProps) => 
   return (
     <img
       {...props}
+      alt={alt}
       ref={revealIfReady}
       className={`smooth-image${isLoaded ? " is-loaded" : ""} ${className}`}
       onLoad={(event) => {

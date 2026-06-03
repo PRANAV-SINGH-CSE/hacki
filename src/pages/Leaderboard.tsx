@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getApps, initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref } from "firebase/database";
+import { get, getDatabase, ref } from "firebase/database";
 import { Crosshair, Crown, Globe, Shield, Swords, Target, Users } from "lucide-react";
 import SmoothImage from "../components/shared/SmoothImage";
 import "./Leaderboard.css";
@@ -60,7 +60,13 @@ const fallbackRows: LeaderboardItem[] = [
 ];
 
 const rankColors = ["gold", "silver", "bronze", "cyan", "cyan", "green", "red", "violet", "purple", "cyan"];
-const eventBackgroundImage = `${process.env.PUBLIC_URL}/events/kavach2.0/bacground_image.png`;
+const LEADERBOARD_REFRESH_MS = 60000;
+const LEADERBOARD_CACHE_KEY = "hackiware:leaderboard:v1";
+
+type LeaderboardCache = {
+  rows: LeaderboardItem[];
+  updatedAt: number;
+};
 
 const signaturePrograms = [
   {
@@ -165,13 +171,69 @@ const LeaderboardRowsPreloader = () => (
   </div>
 );
 
+const parseLeaderboardRows = (value: unknown): LeaderboardItem[] => {
+  if (!value || typeof value !== "object") return [];
+
+  return Object.values(value)
+    .filter(Boolean)
+    .map((entry, index) => {
+      const item = entry as LeaderboardItem;
+      const rank = Number(item.rank);
+      return {
+        ...item,
+        rank: Number.isFinite(rank) ? rank : index + 1,
+      };
+    })
+    .sort((a, b) => Number(a.rank) - Number(b.rank));
+};
+
+const readLeaderboardCache = (): LeaderboardCache | null => {
+  try {
+    const cached = window.localStorage.getItem(LEADERBOARD_CACHE_KEY);
+    if (!cached) return null;
+
+    const parsed = JSON.parse(cached) as Partial<LeaderboardCache>;
+    if (!Array.isArray(parsed.rows)) return null;
+
+    return {
+      rows: parsed.rows,
+      updatedAt: typeof parsed.updatedAt === "number" ? parsed.updatedAt : 0,
+    };
+  } catch {
+    return null;
+  }
+};
+
+const writeLeaderboardCache = (rows: LeaderboardItem[]) => {
+  try {
+    window.localStorage.setItem(
+      LEADERBOARD_CACHE_KEY,
+      JSON.stringify({
+        rows,
+        updatedAt: Date.now(),
+      }),
+    );
+  } catch {
+    // Ignore storage failures; the live fetch can still complete without blocking the page.
+  }
+};
+
 const Leaderboard = () => {
   const [rows, setRows] = useState<LeaderboardItem[]>([]);
   const [status, setStatus] = useState("");
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const rowsSignatureRef = useRef("");
 
   useEffect(() => {
+    const cached = readLeaderboardCache();
+    if (cached) {
+      rowsSignatureRef.current = JSON.stringify(cached.rows);
+      setRows(cached.rows);
+      setIsLoading(false);
+      setStatus("");
+    }
+
     if (missingVars.length > 0) {
       setIsError(true);
       setIsLoading(false);
@@ -184,41 +246,49 @@ const Leaderboard = () => {
       const db = getDatabase(app);
       const leaderboardRef = ref(db, "leaderboard");
 
-      const unsubscribe = onValue(
-        leaderboardRef,
-        (snapshot) => {
-          setIsLoading(false);
-          const value = snapshot.val();
-          if (!value || typeof value !== "object") {
-            setRows([]);
+      let cancelled = false;
+      let isInitialLoad = true;
+
+      const loadLeaderboard = () => {
+        get(leaderboardRef)
+          .then((snapshot) => {
+            if (cancelled) return;
+
+            const parsed = parseLeaderboardRows(snapshot.val());
+            writeLeaderboardCache(parsed);
+
+            const cached = readLeaderboardCache();
+            const cachedRows = cached?.rows ?? [];
+            const signature = JSON.stringify(cachedRows);
+
+            if (rowsSignatureRef.current !== signature) {
+              rowsSignatureRef.current = signature;
+              setRows(cachedRows);
+            }
+
             setIsError(false);
-            setStatus("Waiting for leaderboard data...");
-            return;
-          }
+            setStatus(cachedRows.length > 0 ? "" : "Waiting for leaderboard data...");
+          })
+          .catch((error) => {
+            if (cancelled) return;
+            setIsError(true);
+            setStatus(`Failed to load leaderboard: ${error.message}`);
+          })
+          .finally(() => {
+            if (!cancelled && isInitialLoad) {
+              isInitialLoad = false;
+              setIsLoading(false);
+            }
+          });
+      };
 
-          const parsed = Object.values(value)
-            .filter(Boolean)
-            .map((entry, index) => {
-              const item = entry as LeaderboardItem;
-              const rank = Number(item.rank);
-              return {
-                ...item,
-                rank: Number.isFinite(rank) ? rank : index + 1,
-              };
-            })
-            .sort((a, b) => Number(a.rank) - Number(b.rank));
+      loadLeaderboard();
+      const refreshId = window.setInterval(loadLeaderboard, LEADERBOARD_REFRESH_MS);
 
-          setRows(parsed);
-          setIsError(false);
-        },
-        (error) => {
-          setIsLoading(false);
-          setIsError(true);
-          setStatus(`Failed to load leaderboard: ${error.message}`);
-        },
-      );
-
-      return () => unsubscribe();
+      return () => {
+        cancelled = true;
+        window.clearInterval(refreshId);
+      };
     } catch (error) {
       setIsLoading(false);
       setIsError(true);
