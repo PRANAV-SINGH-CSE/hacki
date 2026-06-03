@@ -166,11 +166,11 @@ const Hero = () => {
           <div
             className="absolute pointer-events-none"
             style={{
-              right: '0%',
-              top: '42%',
+              right: 'clamp(54px, 6.2vw, 120px)',
+              top: '37%',
               transform: 'translateY(-50%)',
-              width: '500px',
-              height: '500px',
+              width: 'min(28vw, 500px)',
+              height: 'min(28vw, 500px)',
             }}
           >
             {/* Removed subtle glow behind the mesh */}
