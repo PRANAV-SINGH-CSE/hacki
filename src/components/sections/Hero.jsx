@@ -15,13 +15,7 @@ const prefersReducedMotion = () => {
 };
 
 const NetworkMesh = () => (
-  <motion.div
-    className="h-full w-full"
-    initial={{ rotate: 0 }}
-    animate={{ rotate: 360 }}
-    transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-    style={{ transformOrigin: "50% 50%" }}
-  >
+  <div className="hero-network-spin h-full w-full">
     <svg className="w-full h-full opacity-80 drop-shadow-[0_0_10px_rgba(0,243,255,0.4)]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="200" cy="200" r="150" stroke="url(#paint0_linear)" strokeWidth="0.8" strokeDasharray="4 4" />
       <circle cx="200" cy="200" r="100" stroke="url(#paint0_linear)" strokeWidth="0.8" />
@@ -45,7 +39,7 @@ const NetworkMesh = () => (
         </linearGradient>
       </defs>
     </svg>
-  </motion.div>
+  </div>
 );
 
 const Hero = () => {

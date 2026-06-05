@@ -129,6 +129,18 @@ body {
     0 0 30px rgba(189, 0, 255, 0.4);
 }
 
+.hero-network-spin {
+  animation: hero-network-spin 120s linear infinite;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+@keyframes hero-network-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .infinite-marquee {
   --duration: 90s;
 }
@@ -190,6 +202,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-network-spin {
+    animation: none;
+  }
+
   .smooth-image {
     transition: none;
   }
